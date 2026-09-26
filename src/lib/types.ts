@@ -136,6 +136,8 @@ export interface RestaurantSettings {
   lat: number;
   lng: number;
   googleMapsUrl: string;
+  /** Search text for the embedded map (used until exact coordinates are set). */
+  mapEmbedQuery: string;
   googleReviewUrl: string;
   timezone: string;
   openingHours: OpeningHoursDay[];
@@ -144,8 +146,6 @@ export interface RestaurantSettings {
   preorderEnabled: boolean;
   orderingEnabled: boolean;
   cashbackPercent: number;
-  woltBannerEnabled: boolean;
-  woltBannerText: LocalizedText;
   heroImageUrl: string | null;
   aiAssistantEnabled: boolean;
   onlinePaymentEnabled: boolean;
@@ -166,8 +166,6 @@ export interface PublicVariant {
   id: string;
   label: string | null;
   price: number;
-  /** Only set when the Wolt price is higher than the site price. */
-  woltPrice: number | null;
 }
 
 export interface PublicAddonOption {
@@ -242,6 +240,7 @@ export interface PublicSettings {
   lat: number;
   lng: number;
   googleMapsUrl: string;
+  mapEmbedQuery: string;
   timezone: string;
   openingHours: OpeningHoursDay[];
   pickupEnabled: boolean;

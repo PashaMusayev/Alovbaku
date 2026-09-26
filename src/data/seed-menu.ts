@@ -48,6 +48,8 @@ export interface SeedAddonOption {
   price: number;
   /** "item-slug#variantIndex" – option is a menu product and follows its price. */
   linked?: string;
+  /** Price not confirmed by the restaurant yet — seeded as unavailable until set in admin. */
+  unconfirmed?: boolean;
 }
 
 export interface SeedAddonGroup {
@@ -83,12 +85,10 @@ const BREAD = {
 } satisfies Record<string, LocalizedText>;
 
 const SIZE = {
-  s: { az: "Kiçik", ru: "Маленькая", en: "Small" },
-  m: { az: "Orta", ru: "Средняя", en: "Medium" },
-  l: { az: "Böyük", ru: "Большая", en: "Large" },
+  s: { az: "Kiçik · 25 sm", ru: "Маленькая · 25 см", en: "Small · 25 cm" },
+  m: { az: "Orta · 32 sm", ru: "Средняя · 32 см", en: "Medium · 32 cm" },
+  l: { az: "Böyük · 35 sm", ru: "Большая · 35 см", en: "Large · 35 cm" },
 } satisfies Record<string, LocalizedText>;
-
-const PIZZA_REVIEW = "Ölçü adlarını (Kiçik / Orta / Böyük) və diametrlərini təsdiqləyin.";
 
 const pizza = (s: number, m: number, l: number): SeedVariant[] => [
   { label: SIZE.s, site: s },
@@ -358,7 +358,6 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         },
         tags: ["meat", "spicy"],
         variants: pizza(8.7, 12.7, 15.0),
-        review: PIZZA_REVIEW,
         addons: ["pizza-extras", "drinks"],
       },
       {
@@ -371,7 +370,6 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         },
         tags: ["chicken"],
         variants: pizza(8.7, 11.5, 13.8),
-        review: PIZZA_REVIEW,
         addons: ["pizza-extras", "drinks"],
       },
       {
@@ -384,7 +382,6 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         },
         tags: ["vegetarian"],
         variants: pizza(6.9, 9.8, 13.8),
-        review: PIZZA_REVIEW,
         addons: ["pizza-extras", "drinks"],
       },
       {
@@ -397,7 +394,6 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         },
         tags: ["vegetarian"],
         variants: pizza(7.5, 10.4, 12.7),
-        review: PIZZA_REVIEW,
         addons: ["pizza-extras", "drinks"],
       },
       {
@@ -410,7 +406,7 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         },
         tags: ["chicken"],
         variants: [{ label: SIZE.s, site: 8.1 }],
-        review: `${PIZZA_REVIEW} Yalnız bir ölçü var (8,10 ₼) — Orta və Böyük ölçüləri əlavə edin.`,
+        review: "Yalnız bir ölçü var (Kiçik, 8,10 ₼) — Orta və Böyük ölçülərin qiymətini əlavə edin.",
         addons: ["pizza-extras", "drinks"],
       },
       {
@@ -423,7 +419,6 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         },
         tags: ["meat"],
         variants: pizza(7.5, 12.7, 13.8),
-        review: PIZZA_REVIEW,
         addons: ["pizza-extras", "drinks"],
       },
       {
@@ -436,7 +431,6 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         },
         tags: ["meat"],
         variants: pizza(8.1, 13.3, 13.8),
-        review: PIZZA_REVIEW,
         addons: ["pizza-extras", "drinks"],
       },
       {
@@ -449,7 +443,6 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         },
         tags: ["meat", "chicken"],
         variants: pizza(8.7, 13.3, 16.1),
-        review: PIZZA_REVIEW,
         addons: ["pizza-extras", "drinks"],
       },
     ],
@@ -684,8 +677,9 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         name: { az: "Kartof fri", ru: "Картофель фри", en: "French fries" },
         description: { az: "Qızardılmış kartof.", ru: "Картофель фри.", en: "Crispy fried potatoes." },
         tags: ["vegetarian"],
-        variants: single(12.1),
-        review: "12,10 ₼ kartof fri üçün anormal yüksəkdir (ehtimal ki, 2,10 ₼). Qiyməti təsdiqləyin.",
+        // Site price confirmed by the restaurant (2,50 ₼); the Wolt listing shows 12,10 ₼.
+        variants: single(2.5, 12.1),
+        review: "Wolt siyahısında 12,10 ₼ göstərilir (sayt qiyməti 2,50 ₼) — Wolt qiymətini düzəldin.",
         addons: ["sauces"],
       },
       {
@@ -746,7 +740,6 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         description: { az: "Təzə toyuq əti ilə.", ru: "Со свежим куриным мясом.", en: "With fresh chicken." },
         tags: ["chicken"],
         variants: single(3.0, 4.6),
-        review: "Sayt 3,00 ₼, Wolt 4,60 ₼ — hansı qiymət düzgündür?",
       },
       {
         slug: "dovga",
@@ -773,7 +766,6 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         description: { az: "Təzə pomidor və xiyar.", ru: "Свежие помидоры и огурцы.", en: "Fresh tomato and cucumber." },
         tags: ["vegetarian"],
         variants: single(3.0, 4.6),
-        review: "Sayt 3,00 ₼, Wolt 4,60 ₼ — hansı qiymət düzgündür?",
       },
       {
         slug: "sezar-salati",
@@ -876,8 +868,9 @@ export const SEED_CATEGORIES: SeedCategory[] = [
 ];
 
 /**
- * Add-on prices are placeholders (the source menus list none) —
- * the restaurant must confirm them in the admin panel.
+ * Extras and sauce prices are placeholders (the restaurant has not confirmed them),
+ * so those options are seeded as unavailable and stay hidden until an admin sets
+ * the real price. Drink add-ons follow the drink's own menu price.
  */
 export const SEED_ADDON_GROUPS: SeedAddonGroup[] = [
   {
@@ -886,9 +879,9 @@ export const SEED_ADDON_GROUPS: SeedAddonGroup[] = [
     min: 0,
     max: 3,
     options: [
-      { slug: "extra-cheese", name: { az: "Əlavə pendir", ru: "Доп. сыр", en: "Extra cheese" }, price: 1.0 },
-      { slug: "extra-meat", name: { az: "Əlavə ət", ru: "Доп. мясо", en: "Extra meat" }, price: 2.5 },
-      { slug: "jalapeno", name: { az: "Halapenyo", ru: "Халапеньо", en: "Jalapeño" }, price: 0.7 },
+      { slug: "extra-cheese", name: { az: "Əlavə pendir", ru: "Доп. сыр", en: "Extra cheese" }, price: 1.0, unconfirmed: true },
+      { slug: "extra-meat", name: { az: "Əlavə ət", ru: "Доп. мясо", en: "Extra meat" }, price: 2.5, unconfirmed: true },
+      { slug: "jalapeno", name: { az: "Halapenyo", ru: "Халапеньо", en: "Jalapeño" }, price: 0.7, unconfirmed: true },
     ],
   },
   {
@@ -897,10 +890,10 @@ export const SEED_ADDON_GROUPS: SeedAddonGroup[] = [
     min: 0,
     max: 4,
     options: [
-      { slug: "extra-mozzarella", name: { az: "Əlavə mozzarella", ru: "Доп. моцарелла", en: "Extra mozzarella" }, price: 1.5 },
-      { slug: "mushrooms", name: { az: "Göbələk", ru: "Грибы", en: "Mushrooms" }, price: 1.0 },
-      { slug: "olives", name: { az: "Zeytun", ru: "Оливки", en: "Olives" }, price: 0.8 },
-      { slug: "pizza-jalapeno", name: { az: "Halapenyo", ru: "Халапеньо", en: "Jalapeño" }, price: 0.7 },
+      { slug: "extra-mozzarella", name: { az: "Əlavə mozzarella", ru: "Доп. моцарелла", en: "Extra mozzarella" }, price: 1.5, unconfirmed: true },
+      { slug: "mushrooms", name: { az: "Göbələk", ru: "Грибы", en: "Mushrooms" }, price: 1.0, unconfirmed: true },
+      { slug: "olives", name: { az: "Zeytun", ru: "Оливки", en: "Olives" }, price: 0.8, unconfirmed: true },
+      { slug: "pizza-jalapeno", name: { az: "Halapenyo", ru: "Халапеньо", en: "Jalapeño" }, price: 0.7, unconfirmed: true },
     ],
   },
   {
@@ -909,10 +902,10 @@ export const SEED_ADDON_GROUPS: SeedAddonGroup[] = [
     min: 0,
     max: 3,
     options: [
-      { slug: "ketchup", name: { az: "Ketçup", ru: "Кетчуп", en: "Ketchup" }, price: 0.5 },
-      { slug: "mayo", name: { az: "Mayonez", ru: "Майонез", en: "Mayonnaise" }, price: 0.5 },
-      { slug: "garlic-sauce", name: { az: "Sarımsaqlı sous", ru: "Чесночный соус", en: "Garlic sauce" }, price: 0.7 },
-      { slug: "hot-sauce", name: { az: "Acı sous", ru: "Острый соус", en: "Hot sauce" }, price: 0.5 },
+      { slug: "ketchup", name: { az: "Ketçup", ru: "Кетчуп", en: "Ketchup" }, price: 0.5, unconfirmed: true },
+      { slug: "mayo", name: { az: "Mayonez", ru: "Майонез", en: "Mayonnaise" }, price: 0.5, unconfirmed: true },
+      { slug: "garlic-sauce", name: { az: "Sarımsaqlı sous", ru: "Чесночный соус", en: "Garlic sauce" }, price: 0.7, unconfirmed: true },
+      { slug: "hot-sauce", name: { az: "Acı sous", ru: "Острый соус", en: "Hot sauce" }, price: 0.5, unconfirmed: true },
     ],
   },
   {

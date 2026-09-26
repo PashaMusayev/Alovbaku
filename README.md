@@ -28,7 +28,8 @@ Without Supabase credentials the site runs on the in-memory seed menu, so design
 ## Supabase setup
 
 1. Create a project at supabase.com (the free tier is enough to start).
-2. SQL editor → run `supabase/migrations/*.sql`, then `supabase/seed.sql`
+2. SQL editor → run every file in `supabase/migrations/` in name order, then `supabase/seed.sql`
+   (the seed upserts, so it can be re-run before launch — it overwrites edits to seeded rows)
    (or `supabase db push` + `psql -f supabase/seed.sql` with the Supabase CLI).
 3. Copy the project URL + anon key (and service-role key) into `.env.local`.
 
@@ -45,11 +46,12 @@ Without Supabase credentials the site runs on the in-memory seed menu, so design
 
 - **Money is integer qəpik**, formatted everywhere as `8,70 ₼` (`src/lib/money.ts`).
 - **One source of truth for prices**: every item has ≥1 variant with a `price_site` and an optional `price_wolt`,
-  plus `available_site` / `available_wolt` flags. The public site always shows the site price and, if the Wolt price is higher,
-  a struck-through “Wolt-da X ₼”. The “Wolt-dan ucuz” banner only shows when something is cheaper on the site and nothing is pricier.
+  plus `available_site` / `available_wolt` flags. Wolt data is **internal only** (admin tools): the public site shows
+  site prices and never mentions Wolt. Wolt prices being higher than site prices is expected (commission).
 - **Variants, never duplicate items** — pizza sizes, dönər bread types, drink sizes are chips inside one item.
 - **Localized DB text** is `jsonb {az, ru, en}`, falling back to Azerbaijani. All UI strings live in `messages/*.json`.
 - **Seed data flags** suspicious source data with `needs_review` + a note (e.g. kartof fri 12,10 ₼) for the admin validation list.
+- **Brand assets**: `node scripts/build-brand-assets.mjs` crops the logo photo into the circular badge, favicon and app icons.
 - **Images** are always 4:3 `object-cover`; items without a photo get a branded placeholder.
 - **Open/closed status** is computed in the browser in Asia/Baku time, so statically cached pages never show a stale status.
 - **Security**: RLS — public can read the menu only; orders/customers are written by server routes with the service role, which recompute prices.

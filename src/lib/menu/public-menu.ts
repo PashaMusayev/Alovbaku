@@ -33,6 +33,7 @@ const MAX_BESTSELLERS = 8;
 
 /**
  * Localized, site-channel view of the menu for the client.
+ * Contains site prices only — nothing about other sales channels reaches the public site.
  * `salesRank` (item id → units sold) overrides the manual featured order when available.
  */
 export function buildPublicMenu(data: MenuData, locale: Locale, salesRank?: Map<string, number>): PublicMenu {
@@ -40,6 +41,9 @@ export function buildPublicMenu(data: MenuData, locale: Locale, salesRank?: Map<
   const visibleCategoryIds = new Set(categories.map((c) => c.id));
   const iconByCategory = new Map(categories.map((c) => [c.id, c.icon]));
   const variantPrices = variantPriceIndex(data);
+
+  // Groups whose options are all unavailable are not offered at all.
+  const groupsWithOptions = new Set(data.addonGroups.filter((g) => g.options.some((o) => o.isAvailable)).map((g) => g.id));
 
   const items: Record<string, PublicItem> = {};
   for (const item of data.items) {
@@ -64,9 +68,8 @@ export function buildPublicMenu(data: MenuData, locale: Locale, salesRank?: Map<
           id: v.id,
           label: v.label ? localize(v.label, locale) || null : null,
           price: v.priceSite,
-          woltPrice: item.availableWolt && v.priceWolt !== null && v.priceWolt > v.priceSite ? v.priceWolt : null,
         })),
-      addonGroupIds: item.addonGroupIds,
+      addonGroupIds: item.addonGroupIds.filter((id) => groupsWithOptions.has(id)),
     };
   }
 
@@ -123,39 +126,6 @@ function pickBestsellers(items: Record<string, PublicItem>, salesRank?: Map<stri
     .map((i) => i.id);
 }
 
-export interface WoltComparison {
-  /** Items sold on both channels. */
-  compared: number;
-  cheaperOnSite: number;
-  pricierOnSite: number;
-  /** Biggest saving on a single variant, in qəpik. */
-  maxSaving: number;
-}
-
-/** Compares site vs Wolt prices of items sold on both channels. */
-export function compareWithWolt(data: MenuData): WoltComparison {
-  const result: WoltComparison = { compared: 0, cheaperOnSite: 0, pricierOnSite: 0, maxSaving: 0 };
-  for (const item of data.items) {
-    if (!item.availableSite || !item.availableWolt || item.isHidden) continue;
-    for (const v of item.variants) {
-      if (!v.isAvailable || v.priceWolt === null) continue;
-      result.compared++;
-      if (v.priceSite < v.priceWolt) {
-        result.cheaperOnSite++;
-        result.maxSaving = Math.max(result.maxSaving, v.priceWolt - v.priceSite);
-      } else if (v.priceSite > v.priceWolt) {
-        result.pricierOnSite++;
-      }
-    }
-  }
-  return result;
-}
-
-/** The "Wolt-dan ucuz" banner is only honest when nothing costs more on the site. */
-export function shouldShowWoltBanner(settings: RestaurantSettings, comparison: WoltComparison): boolean {
-  return settings.woltBannerEnabled && comparison.cheaperOnSite > 0 && comparison.pricierOnSite === 0;
-}
-
 export function buildPublicSettings(s: RestaurantSettings, zones: DeliveryZone[], locale: Locale): PublicSettings {
   return {
     name: s.name,
@@ -166,6 +136,7 @@ export function buildPublicSettings(s: RestaurantSettings, zones: DeliveryZone[]
     lat: s.lat,
     lng: s.lng,
     googleMapsUrl: s.googleMapsUrl,
+    mapEmbedQuery: s.mapEmbedQuery,
     timezone: s.timezone,
     openingHours: s.openingHours,
     pickupEnabled: s.pickupEnabled,

@@ -89,7 +89,7 @@ export function buildSeedMenu(): MenuData {
       priceWolt: toQepik(o.price),
       linkedVariantId: o.linked ? resolveVariant(o.linked) : null,
       sortOrder: oi + 1,
-      isAvailable: true,
+      isAvailable: !o.unconfirmed,
     })),
   }));
 

@@ -15,7 +15,7 @@ export function LocationSection({ settings }: { settings: PublicSettings }) {
         {t("home.location")}
       </h2>
       <div className="mt-4 grid gap-4 lg:grid-cols-2">
-        <MapFacade lat={settings.lat} lng={settings.lng} />
+        <MapFacade query={settings.mapEmbedQuery} />
         <div className="space-y-4">
           <p className="flex items-start gap-2 text-cream-100">
             <MapPinIcon className="mt-0.5 shrink-0 text-flame-400" />
@@ -56,7 +56,11 @@ export function LocationSection({ settings }: { settings: PublicSettings }) {
                 <li key={z.id} className="flex flex-wrap justify-between gap-x-3">
                   <span className="text-cream-300">{z.name}</span>
                   <span className="tabular-nums text-cream-50">
-                    {t("info.zoneRow", { fee: formatPrice(z.fee), min: formatPrice(z.minOrder), eta: z.etaMinutes })}
+                    {[
+                      z.fee === 0 ? t("info.freeDelivery") : formatPrice(z.fee),
+                      z.minOrder === 0 ? t("info.noMinimum") : t("info.minOrder", { min: formatPrice(z.minOrder) }),
+                      t("info.eta", { eta: z.etaMinutes }),
+                    ].join(" · ")}
                   </span>
                 </li>
               ))}

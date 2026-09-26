@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import { MapPinIcon } from "@/components/ui/icons";
 
 /** Loads the Google Maps iframe only on demand — keeps the page fast (no API key needed). */
-export function MapFacade({ lat, lng }: { lat: number; lng: number }) {
+export function MapFacade({ query }: { query: string }) {
   const t = useTranslations("home");
   const [show, setShow] = useState(false);
   return (
@@ -13,7 +13,7 @@ export function MapFacade({ lat, lng }: { lat: number; lng: number }) {
       {show ? (
         <iframe
           title={t("mapTitle")}
-          src={`https://www.google.com/maps?q=${lat},${lng}&z=16&output=embed`}
+          src={`https://www.google.com/maps?q=${encodeURIComponent(query)}&z=16&output=embed`}
           className="absolute inset-0 h-full w-full border-0"
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"

@@ -85,7 +85,9 @@ export function Hero({ settings }: { settings: PublicSettings }) {
               >
                 <BikeIcon width={18} height={18} className="shrink-0 text-flame-400" />
                 <span className="text-cream-100">
-                  {t("info.delivery", { fee: formatPrice(delivery.minFee), min: formatPrice(delivery.minOrder) })}
+                  {delivery.minFee === 0 ? t("info.freeDelivery") : t("info.deliveryFrom", { fee: formatPrice(delivery.minFee) })}
+                  {" · "}
+                  {delivery.minOrder === 0 ? t("info.noMinimum") : t("info.minOrder", { min: formatPrice(delivery.minOrder) })}
                 </span>
               </a>
             </li>

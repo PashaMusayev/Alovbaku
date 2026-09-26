@@ -1,13 +1,14 @@
 import type { DeliveryZone, OpeningHoursDay, RestaurantSettings } from "@/lib/types";
 
 /**
- * Default settings. Hours, address and delivery zones are placeholders —
- * the restaurant confirms them in the admin panel (Settings).
+ * Settings confirmed by the restaurant (2026-09-26): open daily 10:00–03:00,
+ * free delivery, no minimum order, no delivery zones.
+ * The street address text is still a placeholder.
  */
 export const DEFAULT_OPENING_HOURS: OpeningHoursDay[] = [0, 1, 2, 3, 4, 5, 6].map((day) => ({
   day,
-  open: "11:00",
-  close: "01:00",
+  open: "10:00",
+  close: "03:00",
   closed: false,
 }));
 
@@ -19,7 +20,8 @@ export const SEED_SETTINGS: RestaurantSettings = {
   address: { az: "Bakı, Azərbaycan", ru: "Баку, Азербайджан", en: "Baku, Azerbaijan" },
   lat: 40.4093,
   lng: 49.8671,
-  googleMapsUrl: "https://maps.google.com/?q=Alov+Baku",
+  googleMapsUrl: "https://maps.app.goo.gl/c1NGwEfpxcu64au59",
+  mapEmbedQuery: "Alov Baku, Bakı",
   googleReviewUrl: "",
   timezone: "Asia/Baku",
   openingHours: DEFAULT_OPENING_HOURS,
@@ -28,12 +30,6 @@ export const SEED_SETTINGS: RestaurantSettings = {
   preorderEnabled: true,
   orderingEnabled: true,
   cashbackPercent: 5,
-  woltBannerEnabled: true,
-  woltBannerText: {
-    az: "Wolt-dan ucuz! Birbaşa sifariş et — komissiyasız qiymət.",
-    ru: "Дешевле, чем в Wolt! Заказывайте напрямую — без наценки.",
-    en: "Cheaper than Wolt! Order direct — no commission markup.",
-  },
   heroImageUrl: null,
   aiAssistantEnabled: false,
   onlinePaymentEnabled: false,
@@ -43,35 +39,16 @@ export interface SeedZone extends Omit<DeliveryZone, "id"> {
   slug: string;
 }
 
+/** One city-wide zone: free delivery, no minimum order. */
 export const SEED_ZONES: SeedZone[] = [
   {
     slug: "zone-1",
-    name: { az: "Yaxın zona (0–3 km)", ru: "Ближняя зона (0–3 км)", en: "Near zone (0–3 km)" },
-    radiusKm: 3,
-    fee: 200,
-    minOrder: 1000,
-    etaMinutes: 40,
+    name: { az: "Bakı", ru: "Баку", en: "Baku" },
+    radiusKm: 40,
+    fee: 0,
+    minOrder: 0,
+    etaMinutes: 45,
     sortOrder: 1,
-    isActive: true,
-  },
-  {
-    slug: "zone-2",
-    name: { az: "Orta zona (3–6 km)", ru: "Средняя зона (3–6 км)", en: "Middle zone (3–6 km)" },
-    radiusKm: 6,
-    fee: 300,
-    minOrder: 1500,
-    etaMinutes: 55,
-    sortOrder: 2,
-    isActive: true,
-  },
-  {
-    slug: "zone-3",
-    name: { az: "Uzaq zona (6–10 km)", ru: "Дальняя зона (6–10 км)", en: "Far zone (6–10 km)" },
-    radiusKm: 10,
-    fee: 450,
-    minOrder: 2000,
-    etaMinutes: 70,
-    sortOrder: 3,
     isActive: true,
   },
 ];

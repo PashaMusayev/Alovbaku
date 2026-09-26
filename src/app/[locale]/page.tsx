@@ -1,13 +1,11 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
-import { localize } from "@/lib/i18n-text";
-import { buildPublicMenu, buildPublicSettings, compareWithWolt, shouldShowWoltBanner } from "@/lib/menu/public-menu";
+import { buildPublicMenu, buildPublicSettings } from "@/lib/menu/public-menu";
 import { getDeliveryZones, getMenuData, getSettings } from "@/lib/menu/repository";
 import type { Locale } from "@/lib/types";
 import { Hero } from "@/components/home/hero";
 import { ItemRow } from "@/components/home/item-row";
 import { LocationSection } from "@/components/home/location-section";
-import { WoltBanner } from "@/components/home/wolt-banner";
 import { ArrowRightIcon } from "@/components/ui/icons";
 
 export default async function HomePage({ params }: PageProps<"/[locale]">) {
@@ -16,16 +14,11 @@ export default async function HomePage({ params }: PageProps<"/[locale]">) {
   const [data, settings, zones, t] = await Promise.all([getMenuData(), getSettings(), getDeliveryZones(), getTranslations()]);
   const menu = buildPublicMenu(data, locale);
   const publicSettings = buildPublicSettings(settings, zones, locale);
-  const wolt = compareWithWolt(data);
   const comboIds = Object.values(menu.items).filter((i) => i.isCombo).map((i) => i.id);
 
   return (
     <>
       <Hero settings={publicSettings} />
-
-      {shouldShowWoltBanner(settings, wolt) && (
-        <WoltBanner text={localize(settings.woltBannerText, locale)} maxSaving={wolt.maxSaving} />
-      )}
 
       <section aria-labelledby="bestsellers-heading" className="mx-auto mt-8 max-w-6xl px-4">
         <div className="mb-3 flex items-end justify-between gap-3">

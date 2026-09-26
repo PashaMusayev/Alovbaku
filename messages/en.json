@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Alov Baku — charcoal döner delivery in Baku",
-    "description": "Alov Baku: charcoal döner, kebabs, pizza, shawarma, burgers, lahmacun and pide. Fast delivery across Baku — ordering direct is cheaper than Wolt. Fərqimiz Keyfiyyətimizdir 🔥",
+    "description": "Alov Baku: charcoal döner, kebabs, pizza, shawarma, burgers, lahmacun and pide. Free delivery across Baku, no minimum order. Fərqimiz Keyfiyyətimizdir 🔥",
     "menuTitle": "Menu — charcoal döner, kebabs, pizza",
     "menuDescription": "Alov Baku menu: charcoal döner, lamb kebabs, pizza, shawarma, burgers, lahmacun, pide and combos. Order online for delivery.",
     "cartTitle": "Cart"
@@ -52,14 +52,13 @@
     "hours": "Opening hours",
     "phone": "Phone",
     "address": "Address",
-    "delivery": "Delivery from {fee} · min. order {min}",
     "pickup": "Pickup — free",
     "deliveryTerms": "Delivery terms",
-    "zoneRow": "{fee} · min. {min} · ~{eta} min"
-  },
-  "wolt": {
-    "savingsUpTo": "Save up to {amount} on a single item",
-    "cta": "See prices"
+    "deliveryFrom": "Delivery from {fee}",
+    "freeDelivery": "Free delivery",
+    "noMinimum": "no minimum order",
+    "minOrder": "min. order {min}",
+    "eta": "~{eta} min"
   },
   "home": {
     "bestsellers": "Most ordered",
@@ -83,8 +82,6 @@
     "noResults": "Nothing found. Try another word.",
     "resetFilters": "Reset filters",
     "from": "from {price}",
-    "woltPrice": "{price} on Wolt",
-    "woltPriceLabel": "Wolt price",
     "add": "Add",
     "addNamed": "Add {name}",
     "outOfStock": "Out of stock",

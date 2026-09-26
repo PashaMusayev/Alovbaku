@@ -185,6 +185,7 @@ interface SettingsRow {
   lat: number;
   lng: number;
   google_maps_url: string;
+  map_embed_query: string;
   google_review_url: string;
   timezone: string;
   opening_hours: OpeningHoursDay[];
@@ -193,8 +194,6 @@ interface SettingsRow {
   preorder_enabled: boolean;
   ordering_enabled: boolean;
   cashback_percent: number | string;
-  wolt_banner_enabled: boolean;
-  wolt_banner_text: LocalizedText;
   hero_image_url: string | null;
   ai_assistant_enabled: boolean;
   online_payment_enabled: boolean;
@@ -213,6 +212,7 @@ async function fetchSettingsFromSupabase(): Promise<RestaurantSettings> {
     lat: r.lat,
     lng: r.lng,
     googleMapsUrl: r.google_maps_url,
+    mapEmbedQuery: r.map_embed_query,
     googleReviewUrl: r.google_review_url,
     timezone: r.timezone,
     openingHours: r.opening_hours,
@@ -221,8 +221,6 @@ async function fetchSettingsFromSupabase(): Promise<RestaurantSettings> {
     preorderEnabled: r.preorder_enabled,
     orderingEnabled: r.ordering_enabled,
     cashbackPercent: Number(r.cashback_percent),
-    woltBannerEnabled: r.wolt_banner_enabled,
-    woltBannerText: r.wolt_banner_text,
     heroImageUrl: r.hero_image_url,
     aiAssistantEnabled: r.ai_assistant_enabled,
     onlinePaymentEnabled: r.online_payment_enabled,

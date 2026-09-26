@@ -59,7 +59,6 @@ function SheetContent({ item, onDone }: { item: PublicItem; onDone: () => void }
     [item.id, variantId, addonIds, quantity, menu],
   );
   const canAdd = item.inStock && settings.orderingEnabled && !("error" in priced);
-  const variant = item.variants.find((v) => v.id === variantId);
 
   const toggleAddon = (groupId: string, optionId: string) => {
     setAddonIds((current) => {
@@ -101,11 +100,6 @@ function SheetContent({ item, onDone }: { item: PublicItem; onDone: () => void }
               {item.name}
             </h2>
             {item.description && <p className="text-sm text-cream-300">{item.description}</p>}
-            {variant?.woltPrice != null && (
-              <p className="text-xs text-cream-500">
-                <s>{t("menu.woltPrice", { price: formatPrice(variant.woltPrice) })}</s>
-              </p>
-            )}
           </header>
 
           {item.variants.length > 1 && (
