@@ -17,6 +17,10 @@ function assertBackend() {
   if (isSupabaseConfigured() && !isServiceRoleConfigured()) {
     throw new OrderBackendError("Supabase is configured but SUPABASE_SERVICE_ROLE_KEY is missing");
   }
+  // On Vercel, serverless instances don't share memory: demo mode would lose orders.
+  if (process.env.VERCEL && !isServiceRoleConfigured()) {
+    throw new OrderBackendError("Supabase must be configured on Vercel (orders would be lost in memory)");
+  }
 }
 
 const supabaseBacked = () => isServiceRoleConfigured();
