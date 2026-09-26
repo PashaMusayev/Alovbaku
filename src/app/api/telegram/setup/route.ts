@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { matchesWebhookSecret } from "@/lib/notify/secret";
+import { matchesWebhookSecret, webhookSecret } from "@/lib/notify/secret";
 import { isTelegramConfigured, telegramCall } from "@/lib/notify/telegram";
 import { getTelegramChatId } from "@/lib/orders/store";
 
@@ -19,12 +19,19 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ ok: false, error: "TELEGRAM_BOT_TOKEN təyin edilməyib." }, { status: 400 });
   }
 
+  const secret = webhookSecret() ?? "";
+  if (!/^[A-Za-z0-9_-]{1,256}$/.test(secret)) {
+    return NextResponse.json(
+      { ok: false, error: "TELEGRAM_WEBHOOK_SECRET yalnız ingilis hərfləri, rəqəmlər, _ və - ola bilər (boşluq və ə, ş, ı kimi hərflər olmaz)." },
+      { status: 400 },
+    );
+  }
   const webhookUrl = new URL("/api/telegram/webhook", req.nextUrl.origin).toString();
   const steps: Record<string, string> = {};
   try {
     await telegramCall("setWebhook", {
       url: webhookUrl,
-      secret_token: process.env.TELEGRAM_WEBHOOK_SECRET,
+      secret_token: secret,
       allowed_updates: ["callback_query"],
       drop_pending_updates: true,
     });

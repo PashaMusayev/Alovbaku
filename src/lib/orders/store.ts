@@ -239,7 +239,8 @@ export async function hitRateLimit(bucket: string, windowSeconds: number, max: n
 
 /** Telegram chat: env var wins, otherwise the admin-configured value. */
 export async function getTelegramChatId(): Promise<string | null> {
-  if (process.env.TELEGRAM_CHAT_ID) return process.env.TELEGRAM_CHAT_ID;
+  const fromEnv = process.env.TELEGRAM_CHAT_ID?.trim();
+  if (fromEnv) return fromEnv;
   if (!supabaseBacked()) return null;
   const { data } = await getServiceClient().from("private_settings").select("telegram_chat_id").eq("id", 1).maybeSingle();
   return (data as { telegram_chat_id: string | null } | null)?.telegram_chat_id ?? null;

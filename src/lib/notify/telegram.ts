@@ -7,10 +7,10 @@ import type { OrderRecord } from "@/lib/orders/types";
 const API = "https://api.telegram.org";
 const TIMEOUT_MS = 6000;
 
-export const isTelegramConfigured = () => Boolean(process.env.TELEGRAM_BOT_TOKEN);
+export const isTelegramConfigured = () => Boolean(process.env.TELEGRAM_BOT_TOKEN?.trim());
 
 export async function telegramCall<T = unknown>(method: string, body: Record<string, unknown>): Promise<T> {
-  const token = process.env.TELEGRAM_BOT_TOKEN;
+  const token = process.env.TELEGRAM_BOT_TOKEN?.trim();
   if (!token) throw new Error("TELEGRAM_BOT_TOKEN is not set");
   const res = await fetch(`${API}/bot${token}/${method}`, {
     method: "POST",
