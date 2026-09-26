@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "title": "Alov Baku — charcoal döner delivery in Baku",
+    "description": "Alov Baku: charcoal döner, kebabs, pizza, shawarma, burgers, lahmacun and pide. Fast delivery across Baku — ordering direct is cheaper than Wolt. Fərqimiz Keyfiyyətimizdir 🔥",
+    "menuTitle": "Menu — charcoal döner, kebabs, pizza",
+    "menuDescription": "Alov Baku menu: charcoal döner, lamb kebabs, pizza, shawarma, burgers, lahmacun, pide and combos. Order online for delivery.",
+    "cartTitle": "Cart"
+  },
+  "brand": {
+    "slogan": "Fərqimiz Keyfiyyətimizdir 🔥"
+  },
+  "nav": {
+    "home": "Home",
+    "menu": "Menu",
+    "cart": "Cart",
+    "call": "Call",
+    "language": "Language",
+    "skipToContent": "Skip to content"
+  },
+  "languages": {
+    "az": "Azərbaycanca",
+    "ru": "Русский",
+    "en": "English"
+  },
+  "hero": {
+    "kicker": "Charcoal döner in Baku",
+    "cta": "Order now",
+    "secondary": "See the menu",
+    "imageAlt": "Döner roasting over open fire"
+  },
+  "status": {
+    "open": "Open now",
+    "closed": "Closed now",
+    "closesAt": "Open until {time}",
+    "opensAt": "Opens at {time}",
+    "opensTomorrow": "Opens tomorrow at {time}",
+    "opensOn": "Opens {day} at {time}",
+    "todayHours": "Today {open}–{close}",
+    "closedToday": "Closed today",
+    "checking": "Checking opening hours…"
+  },
+  "days": {
+    "0": "Sunday",
+    "1": "Monday",
+    "2": "Tuesday",
+    "3": "Wednesday",
+    "4": "Thursday",
+    "5": "Friday",
+    "6": "Saturday"
+  },
+  "info": {
+    "hours": "Opening hours",
+    "phone": "Phone",
+    "address": "Address",
+    "delivery": "Delivery from {fee} · min. order {min}",
+    "pickup": "Pickup — free",
+    "deliveryTerms": "Delivery terms",
+    "zoneRow": "{fee} · min. {min} · ~{eta} min"
+  },
+  "wolt": {
+    "savingsUpTo": "Save up to {amount} on a single item",
+    "cta": "See prices"
+  },
+  "home": {
+    "bestsellers": "Most ordered",
+    "combos": "Combos — better value",
+    "categories": "Menu",
+    "seeAll": "Full menu",
+    "location": "Find us",
+    "openInMaps": "Open in Google Maps",
+    "showMap": "Show map",
+    "mapTitle": "Alov Baku on the map",
+    "instagram": "Follow on Instagram",
+    "whatsapp": "Message on WhatsApp"
+  },
+  "menu": {
+    "title": "Menu",
+    "searchLabel": "Search the menu",
+    "searchPlaceholder": "Döner, pizza, kebab…",
+    "clearSearch": "Clear search",
+    "filtersLabel": "Filters",
+    "categoriesLabel": "Categories",
+    "noResults": "Nothing found. Try another word.",
+    "resetFilters": "Reset filters",
+    "from": "from {price}",
+    "woltPrice": "{price} on Wolt",
+    "woltPriceLabel": "Wolt price",
+    "add": "Add",
+    "addNamed": "Add {name}",
+    "outOfStock": "Out of stock",
+    "filter": {
+      "spicy": "Spicy",
+      "chicken": "Chicken",
+      "meat": "Meat",
+      "vegetarian": "Vegetarian"
+    },
+    "badge": {
+      "popular": "Popular",
+      "new": "New",
+      "spicy": "Spicy"
+    }
+  },
+  "item": {
+    "chooseOne": "Choose one",
+    "required": "Required",
+    "optional": "Optional",
+    "upTo": "Up to {count}",
+    "quantity": "Quantity",
+    "decrease": "Decrease",
+    "increase": "Increase",
+    "addToCart": "Add to cart · {price}",
+    "close": "Close",
+    "added": "{name} added to cart"
+  },
+  "cart": {
+    "title": "Cart",
+    "empty": "Your cart is empty",
+    "emptyHint": "Pick something tasty from the menu.",
+    "items": "{count, plural, one {# item} other {# items}}",
+    "view": "View cart",
+    "subtotal": "Items",
+    "total": "Total",
+    "remove": "Remove",
+    "removeNamed": "Remove {name}",
+    "checkout": "Checkout",
+    "backToMenu": "Back to menu",
+    "unavailable": "This item is no longer available",
+    "orderByPhone": "Order by phone"
+  },
+  "footer": {
+    "rights": "© {year} Alov Baku. All rights reserved.",
+    "followUs": "Follow us"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to home"
+  }
+}

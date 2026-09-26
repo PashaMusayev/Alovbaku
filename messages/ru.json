@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "title": "Alov Baku — доставка дёнера на углях в Баку",
+    "description": "Alov Baku: дёнер на углях, кебабы, пицца, шаурма, бургеры, лахмаджун и пиде. Быстрая доставка по Баку, прямой заказ выгоднее, чем в Wolt. Fərqimiz Keyfiyyətimizdir 🔥",
+    "menuTitle": "Меню — дёнер на углях, кебабы, пицца",
+    "menuDescription": "Меню Alov Baku: дёнер на углях, кебабы из баранины, пицца, шаурма, бургеры, лахмаджун, пиде и комбо. Закажите онлайн с доставкой.",
+    "cartTitle": "Корзина"
+  },
+  "brand": {
+    "slogan": "Fərqimiz Keyfiyyətimizdir 🔥"
+  },
+  "nav": {
+    "home": "Главная",
+    "menu": "Меню",
+    "cart": "Корзина",
+    "call": "Позвонить",
+    "language": "Язык",
+    "skipToContent": "Перейти к содержимому"
+  },
+  "languages": {
+    "az": "Azərbaycanca",
+    "ru": "Русский",
+    "en": "English"
+  },
+  "hero": {
+    "kicker": "Дёнер на углях в Баку",
+    "cta": "Заказать",
+    "secondary": "Смотреть меню",
+    "imageAlt": "Дёнер на углях и пламя"
+  },
+  "status": {
+    "open": "Сейчас открыто",
+    "closed": "Сейчас закрыто",
+    "closesAt": "Открыто до {time}",
+    "opensAt": "Откроемся в {time}",
+    "opensTomorrow": "Откроемся завтра в {time}",
+    "opensOn": "Откроемся: {day}, {time}",
+    "todayHours": "Сегодня {open}–{close}",
+    "closedToday": "Сегодня выходной",
+    "checking": "Проверяем часы работы…"
+  },
+  "days": {
+    "0": "воскресенье",
+    "1": "понедельник",
+    "2": "вторник",
+    "3": "среда",
+    "4": "четверг",
+    "5": "пятница",
+    "6": "суббота"
+  },
+  "info": {
+    "hours": "Часы работы",
+    "phone": "Телефон",
+    "address": "Адрес",
+    "delivery": "Доставка от {fee} · мин. заказ {min}",
+    "pickup": "Самовывоз — бесплатно",
+    "deliveryTerms": "Условия доставки",
+    "zoneRow": "{fee} · мин. {min} · ~{eta} мин"
+  },
+  "wolt": {
+    "savingsUpTo": "Экономия до {amount} на одной позиции",
+    "cta": "Смотреть цены"
+  },
+  "home": {
+    "bestsellers": "Чаще всего заказывают",
+    "combos": "Комбо — выгоднее",
+    "categories": "Меню",
+    "seeAll": "Всё меню",
+    "location": "Как нас найти",
+    "openInMaps": "Открыть в Google Maps",
+    "showMap": "Показать карту",
+    "mapTitle": "Alov Baku на карте",
+    "instagram": "Мы в Instagram",
+    "whatsapp": "Написать в WhatsApp"
+  },
+  "menu": {
+    "title": "Меню",
+    "searchLabel": "Поиск по меню",
+    "searchPlaceholder": "Дёнер, пицца, кебаб…",
+    "clearSearch": "Очистить поиск",
+    "filtersLabel": "Фильтры",
+    "categoriesLabel": "Категории",
+    "noResults": "Ничего не найдено. Попробуйте другое слово.",
+    "resetFilters": "Сбросить фильтры",
+    "from": "от {price}",
+    "woltPrice": "В Wolt {price}",
+    "woltPriceLabel": "Цена в Wolt",
+    "add": "Добавить",
+    "addNamed": "Добавить: {name}",
+    "outOfStock": "Нет в наличии",
+    "filter": {
+      "spicy": "Острое",
+      "chicken": "Курица",
+      "meat": "Мясо",
+      "vegetarian": "Вегетарианское"
+    },
+    "badge": {
+      "popular": "Популярное",
+      "new": "Новинка",
+      "spicy": "Острое"
+    }
+  },
+  "item": {
+    "chooseOne": "Выберите один вариант",
+    "required": "Обязательно",
+    "optional": "По желанию",
+    "upTo": "До {count} вариантов",
+    "quantity": "Количество",
+    "decrease": "Уменьшить",
+    "increase": "Увеличить",
+    "addToCart": "В корзину · {price}",
+    "close": "Закрыть",
+    "added": "{name} добавлено в корзину"
+  },
+  "cart": {
+    "title": "Корзина",
+    "empty": "Корзина пуста",
+    "emptyHint": "Выберите любимое блюдо в меню.",
+    "items": "{count, plural, one {# товар} few {# товара} many {# товаров} other {# товара}}",
+    "view": "Корзина",
+    "subtotal": "Товары",
+    "total": "Итого",
+    "remove": "Удалить",
+    "removeNamed": "Удалить: {name}",
+    "checkout": "Оформить заказ",
+    "backToMenu": "Вернуться в меню",
+    "unavailable": "Этой позиции больше нет в меню",
+    "orderByPhone": "Заказать по телефону"
+  },
+  "footer": {
+    "rights": "© {year} Alov Baku. Все права защищены.",
+    "followUs": "Мы в соцсетях"
+  },
+  "notFound": {
+    "title": "Страница не найдена",
+    "back": "На главную"
+  }
+}

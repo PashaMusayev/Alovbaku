@@ -1,0 +1,102 @@
+@import "tailwindcss";
+
+@theme {
+  /* Charcoal */
+  --color-coal-950: #0c0a09;
+  --color-coal-900: #151211;
+  --color-coal-800: #1f1a17;
+  --color-coal-700: #2b2420;
+  --color-coal-600: #3d332d;
+  --color-coal-500: #5a4c43;
+
+  /* Fire */
+  --color-flame-300: #ffae85;
+  --color-flame-400: #ff7b47;
+  --color-flame-500: #ff5a1f;
+  --color-flame-600: #e8460c;
+  --color-ember-500: #d7301f;
+  --color-ember-600: #b3231a;
+  --color-ember-700: #8c1a14;
+  --color-gold-400: #ffc24a;
+
+  /* Text */
+  --color-cream-50: #fffaf2;
+  --color-cream-100: #fff3e0;
+  --color-cream-300: #e9d7bf;
+  --color-cream-500: #b9a48c;
+
+  --font-display: var(--font-oswald), "Arial Narrow", system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --shadow-glow: 0 0 0 1px rgb(255 90 31 / 0.35), 0 8px 30px -8px rgb(255 90 31 / 0.55);
+
+  --animate-flicker: flicker 2.8s ease-in-out infinite;
+  --animate-rise: rise 6s linear infinite;
+  --animate-sheet-up: sheet-up 0.22s ease-out;
+
+  @keyframes flicker {
+    0%, 100% { transform: scaleY(1) skewX(0deg); opacity: 0.95; }
+    25% { transform: scaleY(1.06) skewX(-1.5deg); opacity: 1; }
+    50% { transform: scaleY(0.97) skewX(1deg); opacity: 0.9; }
+    75% { transform: scaleY(1.04) skewX(-0.5deg); opacity: 1; }
+  }
+  @keyframes rise {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-340px) scale(0.3); opacity: 0; }
+  }
+  @keyframes sheet-up {
+    from { transform: translateY(24px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior: smooth;
+    /* sticky header + category tabs */
+    scroll-padding-top: 8.5rem;
+  }
+  body {
+    background: var(--color-coal-950);
+    color: var(--color-cream-100);
+    font-family: var(--font-sans);
+    text-rendering: optimizeLegibility;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-gold-400);
+    outline-offset: 2px;
+  }
+  dialog::backdrop {
+    background: rgb(0 0 0 / 0.7);
+    backdrop-filter: blur(2px);
+  }
+}
+
+@utility font-heading {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: 0.01em;
+  line-height: 1.05;
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@utility pb-safe {
+  padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

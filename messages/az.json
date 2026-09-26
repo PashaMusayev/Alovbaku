@@ -1,0 +1,138 @@
+{
+  "meta": {
+    "title": "Alov Baku — Bakıda köz dönər çatdırılması",
+    "description": "Alov Baku: köz dönər, kabab, pizza, şaurma, burger, lahmacun və pidə. Bakıda sürətli çatdırılma, birbaşa sifarişlə Wolt-dan sərfəli. Fərqimiz Keyfiyyətimizdir 🔥",
+    "menuTitle": "Menyu — köz dönər, kabab, pizza",
+    "menuDescription": "Alov Baku menyusu: köz dönər, quzu kababları, pizza, şaurma, burger, lahmacun, pidə və kombolar. Onlayn sifariş et, qapına çatdıraq.",
+    "cartTitle": "Səbət"
+  },
+  "brand": {
+    "slogan": "Fərqimiz Keyfiyyətimizdir 🔥"
+  },
+  "nav": {
+    "home": "Ana səhifə",
+    "menu": "Menyu",
+    "cart": "Səbət",
+    "call": "Zəng et",
+    "language": "Dil",
+    "skipToContent": "Əsas məzmuna keç"
+  },
+  "languages": {
+    "az": "Azərbaycanca",
+    "ru": "Русский",
+    "en": "English"
+  },
+  "hero": {
+    "kicker": "Bakıda köz dönər",
+    "cta": "Sifariş et",
+    "secondary": "Menyuya bax",
+    "imageAlt": "Közdə bişən dönər və alov"
+  },
+  "status": {
+    "open": "İndi açıqdır",
+    "closed": "Hazırda bağlıyıq",
+    "closesAt": "{time}-dək açıq",
+    "opensAt": "Açılış: {time}",
+    "opensTomorrow": "Açılış: sabah {time}",
+    "opensOn": "Açılış: {day}, {time}",
+    "todayHours": "Bu gün {open}–{close}",
+    "closedToday": "Bu gün istirahət günüdür",
+    "checking": "İş saatları yoxlanılır…"
+  },
+  "days": {
+    "0": "bazar",
+    "1": "bazar ertəsi",
+    "2": "çərşənbə axşamı",
+    "3": "çərşənbə",
+    "4": "cümə axşamı",
+    "5": "cümə",
+    "6": "şənbə"
+  },
+  "info": {
+    "hours": "İş saatları",
+    "phone": "Telefon",
+    "address": "Ünvan",
+    "delivery": "Çatdırılma {fee}-dan · min. sifariş {min}",
+    "pickup": "Özün götür — pulsuz",
+    "deliveryTerms": "Çatdırılma şərtləri",
+    "zoneRow": "{fee} · min. {min} · ~{eta} dəq"
+  },
+  "wolt": {
+    "savingsUpTo": "Bir məhsulda {amount}-dək qənaət",
+    "cta": "Qiymətlərə bax"
+  },
+  "home": {
+    "bestsellers": "Ən çox sifariş edilənlər",
+    "combos": "Kombolar — daha sərfəli",
+    "categories": "Menyu",
+    "seeAll": "Bütün menyu",
+    "location": "Bizi tap",
+    "openInMaps": "Google Maps-də aç",
+    "showMap": "Xəritəni göstər",
+    "mapTitle": "Alov Baku xəritədə",
+    "instagram": "Instagram-da izlə",
+    "whatsapp": "WhatsApp-a yaz"
+  },
+  "menu": {
+    "title": "Menyu",
+    "searchLabel": "Menyuda axtar",
+    "searchPlaceholder": "Dönər, pizza, kabab…",
+    "clearSearch": "Axtarışı təmizlə",
+    "filtersLabel": "Filtrlər",
+    "categoriesLabel": "Kateqoriyalar",
+    "noResults": "Heç nə tapılmadı. Başqa söz yoxlayın.",
+    "resetFilters": "Filtrləri sıfırla",
+    "from": "{price}-dan",
+    "woltPrice": "Wolt-da {price}",
+    "woltPriceLabel": "Wolt qiyməti",
+    "add": "Əlavə et",
+    "addNamed": "{name} — əlavə et",
+    "outOfStock": "Stokda yoxdur",
+    "filter": {
+      "spicy": "Acılı",
+      "chicken": "Toyuq",
+      "meat": "Ət",
+      "vegetarian": "Vegetarian"
+    },
+    "badge": {
+      "popular": "Populyar",
+      "new": "Yeni",
+      "spicy": "Acılı"
+    }
+  },
+  "item": {
+    "chooseOne": "Birini seçin",
+    "required": "Mütləq",
+    "optional": "İstəyə görə",
+    "upTo": "{count} seçimə qədər",
+    "quantity": "Say",
+    "decrease": "Azalt",
+    "increase": "Artır",
+    "addToCart": "Səbətə əlavə et · {price}",
+    "close": "Bağla",
+    "added": "{name} səbətə əlavə olundu"
+  },
+  "cart": {
+    "title": "Səbət",
+    "empty": "Səbətiniz boşdur",
+    "emptyHint": "Menyudan sevdiyiniz yeməyi seçin.",
+    "items": "{count, plural, one {# məhsul} other {# məhsul}}",
+    "view": "Səbətə bax",
+    "subtotal": "Məhsullar",
+    "total": "Cəmi",
+    "remove": "Sil",
+    "removeNamed": "{name} — sil",
+    "checkout": "Sifarişi rəsmiləşdir",
+    "backToMenu": "Menyuya qayıt",
+    "unavailable": "Bu məhsul artıq mövcud deyil",
+    "orderByPhone": "Zənglə sifariş et"
+  },
+  "footer": {
+    "rights": "© {year} Alov Baku. Bütün hüquqlar qorunur.",
+    "followUs": "Bizi izləyin"
+  },
+  "notFound": {
+    "title": "Səhifə tapılmadı",
+    "back": "Ana səhifəyə qayıt"
+  }
+}
