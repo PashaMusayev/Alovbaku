@@ -8,6 +8,7 @@ import { useUi } from "@/lib/cart/ui-store";
 import { formatPrice } from "@/lib/money";
 import { useAppData } from "@/components/providers/app-provider";
 import { CartIcon } from "@/components/ui/icons";
+import { UpsellBar } from "./upsell-bar";
 
 /** Sticky bottom bar: always one thumb-tap away from the cart. */
 export function CartBar() {
@@ -17,7 +18,8 @@ export function CartBar() {
   const toast = useUi((s) => s.toast);
   const pathname = usePathname();
   const { count, subtotal } = computeCart(lines, menu);
-  const showBar = count > 0 && pathname !== "/cart";
+  const onCartFlow = pathname === "/cart" || pathname === "/checkout" || pathname.startsWith("/order/");
+  const showBar = count > 0 && !onCartFlow;
 
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 flex flex-col items-center gap-2 px-3 pb-safe">
@@ -30,6 +32,7 @@ export function CartBar() {
       >
         {toast ?? ""}
       </p>
+      {!onCartFlow && <UpsellBar />}
       {showBar && (
         <Link
           href="/cart"

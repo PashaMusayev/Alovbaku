@@ -2,14 +2,16 @@
 
 import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
+import { findBestCombo } from "@/lib/cart/combos";
 import { useCart } from "@/lib/cart/store";
+import { useUi } from "@/lib/cart/ui-store";
 import { computeCart } from "@/lib/cart/totals";
 import { formatPrice } from "@/lib/money";
-import { telHref } from "@/lib/phone";
 import { useHydrated } from "@/lib/use-hydrated";
+import { useOpenState } from "@/lib/use-open-state";
 import { useAppData } from "@/components/providers/app-provider";
 import { FoodImage } from "@/components/menu/food-image";
-import { PhoneIcon } from "@/components/ui/icons";
+import { ArrowRightIcon } from "@/components/ui/icons";
 import { QuantityStepper } from "@/components/ui/quantity-stepper";
 
 export function CartView() {
@@ -19,7 +21,18 @@ export function CartView() {
   const lines = useCart((s) => s.lines);
   const setQuantity = useCart((s) => s.setQuantity);
   const remove = useCart((s) => s.remove);
+  const swap = useCart((s) => s.swap);
+  const showToast = useUi((s) => s.showToast);
+  const openState = useOpenState(settings.openingHours, settings.timezone);
   const { views, subtotal } = computeCart(lines, menu);
+  const combo = findBestCombo(lines, menu);
+  const comboItem = combo ? menu.items[combo.comboItemId] : undefined;
+
+  const applyCombo = () => {
+    if (!combo || !comboItem) return;
+    swap(combo.consume, { itemId: comboItem.id, variantId: comboItem.variants[0].id, addonIds: [], quantity: 1 });
+    showToast(t("combo.applied", { name: comboItem.name }));
+  };
 
   if (!hydrated) return <div className="h-64" aria-busy="true" />;
 
@@ -85,19 +98,39 @@ export function CartView() {
         })}
       </ul>
 
+      {combo && comboItem && (
+        <div className="flex items-center gap-3 rounded-2xl bg-gradient-to-r from-ember-700 to-flame-600 p-3 pl-4 text-cream-50">
+          <span aria-hidden className="text-2xl">
+            🎁
+          </span>
+          <p className="flex-1">
+            <span className="block font-bold">{t("combo.suggest", { amount: formatPrice(combo.savings) })}</span>
+            <span className="block text-sm text-cream-100/90">{comboItem.name}</span>
+          </p>
+          <button type="button" onClick={applyCombo} className="h-10 shrink-0 rounded-full bg-cream-50 px-4 font-bold text-coal-950">
+            {t("combo.apply")}
+          </button>
+        </div>
+      )}
+
       <dl className="flex items-center justify-between rounded-2xl bg-coal-900 p-4 ring-1 ring-coal-700">
         <dt className="text-cream-300">{t("cart.subtotal")}</dt>
         <dd className="text-xl font-extrabold tabular-nums text-cream-50">{formatPrice(subtotal)}</dd>
       </dl>
 
+      {openState && !openState.isOpen && openState.nextOpening && (
+        <p role="status" className="rounded-2xl bg-coal-800 p-3 text-sm text-cream-100 ring-1 ring-ember-600/60">
+          {t("cart.closedNotice", { time: openState.nextOpening.time })}
+        </p>
+      )}
+
       <div className="flex flex-col gap-3">
-        {/* Online checkout arrives in phase 2; until then the order goes by phone. */}
-        <a
-          href={telHref(settings.phone)}
+        <Link
+          href="/checkout"
           className="flex h-14 items-center justify-center gap-2 rounded-full bg-flame-500 text-lg font-bold text-coal-950 shadow-glow"
         >
-          <PhoneIcon /> {t("cart.orderByPhone")}
-        </a>
+          {t("cart.checkout")} <ArrowRightIcon />
+        </Link>
         <Link href="/menu" className="flex h-12 items-center justify-center rounded-full bg-coal-800 font-semibold ring-1 ring-coal-600">
           {t("cart.backToMenu")}
         </Link>

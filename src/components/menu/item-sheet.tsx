@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useCart } from "@/lib/cart/store";
+import { useAddToCart } from "@/lib/cart/use-add-to-cart";
 import { useUi } from "@/lib/cart/ui-store";
 import { priceSelection } from "@/lib/menu/pricing";
 import { formatPrice } from "@/lib/money";
@@ -46,8 +46,7 @@ export function ItemSheet() {
 function SheetContent({ item, onDone }: { item: PublicItem; onDone: () => void }) {
   const t = useTranslations();
   const { menu, settings } = useAppData();
-  const add = useCart((s) => s.add);
-  const showToast = useUi((s) => s.showToast);
+  const addToCart = useAddToCart();
 
   const [variantId, setVariantId] = useState(item.variants[0].id);
   const [addonIds, setAddonIds] = useState<string[]>([]);
@@ -73,9 +72,8 @@ function SheetContent({ item, onDone }: { item: PublicItem; onDone: () => void }
 
   const submit = () => {
     if (!canAdd) return;
-    add({ itemId: item.id, variantId, addonIds, quantity });
-    showToast(t("item.added", { name: item.name }));
     onDone();
+    addToCart({ itemId: item.id, variantId, addonIds, quantity });
   };
 
   return (

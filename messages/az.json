@@ -4,7 +4,9 @@
     "description": "Alov Baku: köz dönər, kabab, pizza, şaurma, burger, lahmacun və pidə. Bakıda pulsuz çatdırılma, minimum sifariş yoxdur. Fərqimiz Keyfiyyətimizdir 🔥",
     "menuTitle": "Menyu — köz dönər, kabab, pizza",
     "menuDescription": "Alov Baku menyusu: köz dönər, quzu kababları, pizza, şaurma, burger, lahmacun, pidə və kombolar. Onlayn sifariş et, qapına çatdıraq.",
-    "cartTitle": "Səbət"
+    "cartTitle": "Səbət",
+    "checkoutTitle": "Sifarişi rəsmiləşdir",
+    "orderTitle": "Sifarişin statusu"
   },
   "brand": {
     "slogan": "Fərqimiz Keyfiyyətimizdir 🔥"
@@ -122,7 +124,8 @@
     "checkout": "Sifarişi rəsmiləşdir",
     "backToMenu": "Menyuya qayıt",
     "unavailable": "Bu məhsul artıq mövcud deyil",
-    "orderByPhone": "Zənglə sifariş et"
+    "orderByPhone": "Zənglə sifariş et",
+    "closedNotice": "Hazırda bağlıyıq, açılış: {time}. Sonraya sifariş verə bilərsiniz."
   },
   "footer": {
     "rights": "© {year} Alov Baku. Bütün hüquqlar qorunur.",
@@ -131,5 +134,171 @@
   "notFound": {
     "title": "Səhifə tapılmadı",
     "back": "Ana səhifəyə qayıt"
+  },
+  "staff": {
+    "newOrder": "Yeni sifariş #{number}",
+    "delivery": "Çatdırılma",
+    "pickup": "Özün götür",
+    "scheduledFor": "Əvvəlcədən sifariş: {time}",
+    "subtotal": "Məhsullar",
+    "deliveryFee": "Çatdırılma",
+    "free": "Pulsuz",
+    "discount": "Endirim",
+    "total": "Cəmi",
+    "payment": {
+      "cash": "Nağd (qapıda)",
+      "card_on_delivery": "Kartla (qapıda)",
+      "online": "Onlayn ödəniş"
+    },
+    "status": {
+      "new": "Yeni",
+      "accepted": "Qəbul edildi",
+      "rejected": "İmtina edildi",
+      "preparing": "Hazırlanır",
+      "on_the_way": "Yoldadır",
+      "ready": "Hazırdır",
+      "delivered": "Çatdırıldı",
+      "cancelled": "Ləğv edildi"
+    },
+    "statusUpdated": "Status: {status}",
+    "invalidTransition": "Bu status artıq dəyişdirilib",
+    "unknownOrder": "Sifariş tapılmadı",
+    "forbidden": "İcazə yoxdur",
+    "action": {
+      "new": "Yeni",
+      "accepted": "Qəbul et",
+      "rejected": "İmtina et",
+      "preparing": "Hazırlanır",
+      "on_the_way": "Yoldadır",
+      "ready": "Hazırdır",
+      "delivered": "Çatdırıldı",
+      "cancelled": "Ləğv et"
+    }
+  },
+  "checkout": {
+    "title": "Sifarişi rəsmiləşdir",
+    "fulfillment": "Necə alacaqsınız?",
+    "delivery": "Çatdırılma",
+    "pickup": "Özün götür",
+    "pickupFrom": "Götürmə ünvanı: {address}",
+    "contact": "Əlaqə",
+    "name": "Adınız",
+    "namePlaceholder": "Məs. Əli",
+    "phone": "Telefon nömrəsi",
+    "phoneHint": "Sifarişi təsdiqləmək üçün zəng edə bilərik.",
+    "phoneInvalid": "Düzgün nömrə yazın, məs. 55 243 79 99",
+    "nameRequired": "Adınızı yazın",
+    "addressSection": "Çatdırılma ünvanı",
+    "address": "Ünvan",
+    "addressPlaceholder": "Küçə, bina nömrəsi",
+    "addressNotes": "Mənzil, mərtəbə, domofon",
+    "addressNotesPlaceholder": "Məs. 5-ci mərtəbə, mənzil 12",
+    "addressRequired": "Ünvanı yazın",
+    "locate": "Mövqeyimi tap",
+    "pickOnMap": "Xəritədə seç",
+    "hideMap": "Xəritəni gizlət",
+    "pinSet": "Nöqtə xəritədə seçildi",
+    "mapHint": "Nöqtəni evinizin üstünə sürüşdürün",
+    "locating": "Mövqe təyin olunur…",
+    "locateFailed": "Mövqe tapılmadı. Ünvanı yazın və ya xəritədə seçin.",
+    "removePin": "Nöqtəni sil",
+    "mapLabel": "Çatdırılma nöqtəsini seçmək üçün xəritə",
+    "when": "Nə vaxt?",
+    "asap": "İndi — tez bir zamanda",
+    "later": "Sonraya",
+    "chooseTime": "Vaxtı seçin",
+    "payment": "Ödəniş",
+    "cash": "Nağd — qapıda",
+    "card": "Kartla — qapıda (terminal)",
+    "online": "Onlayn ödəniş",
+    "notes": "Sifarişə qeyd",
+    "notesPlaceholder": "Məs. soğansız olsun",
+    "summary": "Sifarişiniz",
+    "items": "Məhsullar",
+    "deliveryFee": "Çatdırılma",
+    "free": "Pulsuz",
+    "total": "Cəmi",
+    "edit": "Dəyiş",
+    "submit": "Sifarişi göndər · {total}",
+    "submitting": "Göndərilir…",
+    "closedNow": "Hazırda bağlıyıq, açılış: {time}",
+    "closedNowTomorrow": "Hazırda bağlıyıq, açılış: sabah {time}",
+    "closedPreorder": "İndi sifariş qəbul etmirik, amma sonraya sifariş verə bilərsiniz.",
+    "closedNoPreorder": "İş saatlarında yenidən gəlin və ya zəng edin.",
+    "orderingDisabled": "Onlayn sifariş müvəqqəti dayandırılıb. Zəng edin: {phone}",
+    "emptyCart": "Səbət boşdur",
+    "errors": {
+      "closed": "Hazırda bağlıyıq. Sonraya vaxt seçin.",
+      "invalid_lines": "Səbətdəki bəzi məhsullar artıq mövcud deyil. Səbəti yoxlayın.",
+      "empty_cart": "Səbət boşdur.",
+      "ordering_disabled": "Onlayn sifariş müvəqqəti dayandırılıb.",
+      "delivery_disabled": "Çatdırılma hazırda mümkün deyil.",
+      "pickup_disabled": "Özün götürmə hazırda mümkün deyil.",
+      "preorder_disabled": "Əvvəlcədən sifariş hazırda mümkün deyil.",
+      "invalid_schedule": "Seçdiyiniz vaxt uyğun deyil — başqa vaxt seçin.",
+      "out_of_zone": "Bu ünvana çatdırılma etmirik.",
+      "below_minimum": "Minimum sifariş məbləği: {min}.",
+      "invalid_phone": "Telefon nömrəsi düzgün deyil.",
+      "address_required": "Çatdırılma ünvanını yazın.",
+      "payment_unavailable": "Bu ödəniş üsulu hazırda mümkün deyil.",
+      "rate_limited": "Çox sayda cəhd. Bir neçə dəqiqə sonra yoxlayın və ya zəng edin.",
+      "server_error": "Xəta baş verdi. Yenidən yoxlayın və ya zəng edin: {phone}",
+      "invalid_input": "Məlumatları yoxlayın.",
+      "network": "İnternet bağlantısını yoxlayın və yenidən cəhd edin."
+    }
+  },
+  "order": {
+    "title": "Sifariş #{number}",
+    "thanks": "Təşəkkür edirik, {name}!",
+    "received": "Sifarişiniz göndərildi. Restoran təsdiqləyən kimi burada görəcəksiniz.",
+    "status": {
+      "new": "Göndərildi — təsdiq gözlənilir",
+      "accepted": "Qəbul edildi",
+      "preparing": "Hazırlanır",
+      "on_the_way": "Yoldadır",
+      "ready": "Hazırdır — götürə bilərsiniz",
+      "delivered": "Çatdırıldı. Nuş olsun! 🔥",
+      "rejected": "Təəssüf ki, sifariş qəbul edilmədi",
+      "cancelled": "Sifariş ləğv edildi"
+    },
+    "timeline": {
+      "accepted": "Qəbul edildi",
+      "preparing": "Hazırlanır",
+      "on_the_way": "Yoldadır",
+      "ready": "Hazırdır",
+      "delivered": "Çatdırıldı",
+      "pickedUp": "Təhvil verildi"
+    },
+    "timelineLabel": "Sifarişin mərhələləri",
+    "current": "indiki mərhələ",
+    "problemHelp": "Sualınız varsa, zəng edin: {phone}",
+    "scheduled": "Əvvəlcədən sifariş: {time}",
+    "live": "Status avtomatik yenilənir",
+    "saveLink": "Bu səhifəni yadda saxlayın — sifarişi buradan izləyə bilərsiniz.",
+    "copyLink": "Linki kopyala",
+    "copied": "Kopyalandı ✓",
+    "whatsapp": "Sifarişi WhatsApp-a göndər",
+    "whatsappHint": "İstəsəniz, sifarişi WhatsApp-da da göndərə bilərsiniz.",
+    "whatsappRequired": "Restorana bildiriş çatmaya bilər — zəhmət olmasa sifarişi WhatsApp-a da göndərin.",
+    "call": "Restorana zəng et",
+    "details": "Sifarişin tərkibi",
+    "newOrder": "Yeni sifariş",
+    "deliveryTo": "Ünvan: {address}",
+    "pickupNote": "Özün götür",
+    "payment": {
+      "cash": "Nağd — qapıda",
+      "card_on_delivery": "Kartla — qapıda",
+      "online": "Onlayn ödəniş"
+    }
+  },
+  "upsell": {
+    "question": "{name} əlavə edək?",
+    "add": "Əlavə et · +{price}",
+    "dismiss": "Bağla"
+  },
+  "combo": {
+    "suggest": "Combo-ya keç, {amount} qənaət et",
+    "apply": "Keç",
+    "applied": "Combo tətbiq olundu: {name}"
   }
 }

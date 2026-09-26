@@ -4,7 +4,9 @@
     "description": "Alov Baku: charcoal döner, kebabs, pizza, shawarma, burgers, lahmacun and pide. Free delivery across Baku, no minimum order. Fərqimiz Keyfiyyətimizdir 🔥",
     "menuTitle": "Menu — charcoal döner, kebabs, pizza",
     "menuDescription": "Alov Baku menu: charcoal döner, lamb kebabs, pizza, shawarma, burgers, lahmacun, pide and combos. Order online for delivery.",
-    "cartTitle": "Cart"
+    "cartTitle": "Cart",
+    "checkoutTitle": "Checkout",
+    "orderTitle": "Order status"
   },
   "brand": {
     "slogan": "Fərqimiz Keyfiyyətimizdir 🔥"
@@ -122,7 +124,8 @@
     "checkout": "Checkout",
     "backToMenu": "Back to menu",
     "unavailable": "This item is no longer available",
-    "orderByPhone": "Order by phone"
+    "orderByPhone": "Order by phone",
+    "closedNotice": "We're closed now, opening at {time}. You can order for later."
   },
   "footer": {
     "rights": "© {year} Alov Baku. All rights reserved.",
@@ -131,5 +134,131 @@
   "notFound": {
     "title": "Page not found",
     "back": "Back to home"
+  },
+  "checkout": {
+    "title": "Checkout",
+    "fulfillment": "How would you like it?",
+    "delivery": "Delivery",
+    "pickup": "Pickup",
+    "pickupFrom": "Pickup address: {address}",
+    "contact": "Contact",
+    "name": "Your name",
+    "namePlaceholder": "e.g. Ali",
+    "phone": "Phone number",
+    "phoneHint": "We may call to confirm your order.",
+    "phoneInvalid": "Enter a valid number, e.g. 55 243 79 99",
+    "nameRequired": "Enter your name",
+    "addressSection": "Delivery address",
+    "address": "Address",
+    "addressPlaceholder": "Street, building",
+    "addressNotes": "Flat, floor, intercom",
+    "addressNotesPlaceholder": "e.g. 5th floor, flat 12",
+    "addressRequired": "Enter the address",
+    "locate": "Use my location",
+    "pickOnMap": "Pick on map",
+    "hideMap": "Hide map",
+    "pinSet": "Location pinned on the map",
+    "mapHint": "Drag the pin onto your building",
+    "locating": "Finding your location…",
+    "locateFailed": "Couldn't find your location. Type the address or pick it on the map.",
+    "removePin": "Remove pin",
+    "mapLabel": "Map for choosing the delivery point",
+    "when": "When?",
+    "asap": "Now — as soon as possible",
+    "later": "Later",
+    "chooseTime": "Choose a time",
+    "payment": "Payment",
+    "cash": "Cash on delivery",
+    "card": "Card on delivery (terminal)",
+    "online": "Pay online",
+    "notes": "Order notes",
+    "notesPlaceholder": "e.g. no onions",
+    "summary": "Your order",
+    "items": "Items",
+    "deliveryFee": "Delivery",
+    "free": "Free",
+    "total": "Total",
+    "edit": "Edit",
+    "submit": "Place order · {total}",
+    "submitting": "Sending…",
+    "closedNow": "We're closed now, opening at {time}",
+    "closedNowTomorrow": "We're closed now, opening tomorrow at {time}",
+    "closedPreorder": "We aren't taking orders right now, but you can order for later.",
+    "closedNoPreorder": "Come back during opening hours or give us a call.",
+    "orderingDisabled": "Online ordering is paused. Call us: {phone}",
+    "emptyCart": "Your cart is empty",
+    "errors": {
+      "closed": "We're closed now. Choose a later time.",
+      "invalid_lines": "Some items are no longer available. Please check your cart.",
+      "empty_cart": "Your cart is empty.",
+      "ordering_disabled": "Online ordering is paused.",
+      "delivery_disabled": "Delivery is not available right now.",
+      "pickup_disabled": "Pickup is not available right now.",
+      "preorder_disabled": "Ordering for later is not available right now.",
+      "invalid_schedule": "That time isn't available — pick another one.",
+      "out_of_zone": "We don't deliver to this address.",
+      "below_minimum": "Minimum order: {min}.",
+      "invalid_phone": "The phone number is not valid.",
+      "address_required": "Enter the delivery address.",
+      "payment_unavailable": "This payment method is not available right now.",
+      "rate_limited": "Too many attempts. Try again in a few minutes or call us.",
+      "server_error": "Something went wrong. Try again or call us: {phone}",
+      "invalid_input": "Please check your details.",
+      "network": "Check your internet connection and try again."
+    }
+  },
+  "order": {
+    "title": "Order #{number}",
+    "thanks": "Thank you, {name}!",
+    "received": "Your order has been sent. You'll see it here as soon as the restaurant confirms.",
+    "status": {
+      "new": "Sent — waiting for confirmation",
+      "accepted": "Accepted",
+      "preparing": "Being prepared",
+      "on_the_way": "On the way",
+      "ready": "Ready — come pick it up",
+      "delivered": "Delivered. Enjoy! 🔥",
+      "rejected": "Sorry, the order was not accepted",
+      "cancelled": "The order was cancelled"
+    },
+    "timeline": {
+      "accepted": "Accepted",
+      "preparing": "Preparing",
+      "on_the_way": "On the way",
+      "ready": "Ready",
+      "delivered": "Delivered",
+      "pickedUp": "Picked up"
+    },
+    "timelineLabel": "Order progress",
+    "current": "current step",
+    "problemHelp": "Questions? Call us: {phone}",
+    "scheduled": "Scheduled for {time}",
+    "live": "Status updates automatically",
+    "saveLink": "Keep this page — you can track your order here.",
+    "copyLink": "Copy link",
+    "copied": "Copied ✓",
+    "whatsapp": "Send order via WhatsApp",
+    "whatsappHint": "You can also send the order via WhatsApp if you like.",
+    "whatsappRequired": "The restaurant may not have been notified — please also send the order via WhatsApp.",
+    "call": "Call the restaurant",
+    "details": "Order details",
+    "newOrder": "New order",
+    "deliveryTo": "Address: {address}",
+    "pickupNote": "Pickup",
+    "payment": {
+      "cash": "Cash on delivery",
+      "card_on_delivery": "Card on delivery",
+      "online": "Paid online"
+    }
+  },
+  "upsell": {
+    "question": "Add {name}?",
+    "add": "Add · +{price}",
+    "dismiss": "Close"
+  },
+  "combo": {
+    "suggest": "Switch to a combo and save {amount}",
+    "apply": "Switch",
+    "applied": "Combo applied: {name}"
   }
 }

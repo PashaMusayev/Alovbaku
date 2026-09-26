@@ -1,22 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
-import { getOpenState, type OpenState } from "@/lib/hours";
+import { useOpenState } from "@/lib/use-open-state";
 import { useAppData } from "@/components/providers/app-provider";
 
 /** Live open/closed pill. Computed on the client so cached pages never show a stale status. */
 export function OpenStatus({ withHours = true }: { withHours?: boolean }) {
   const t = useTranslations();
   const { settings } = useAppData();
-  const [state, setState] = useState<OpenState | null>(null);
-
-  useEffect(() => {
-    const update = () => setState(getOpenState(settings.openingHours, new Date(), settings.timezone));
-    update();
-    const timer = setInterval(update, 60_000);
-    return () => clearInterval(timer);
-  }, [settings.openingHours, settings.timezone]);
+  const state = useOpenState(settings.openingHours, settings.timezone);
 
   if (!state) {
     return (

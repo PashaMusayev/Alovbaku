@@ -143,6 +143,7 @@ export function buildPublicSettings(s: RestaurantSettings, zones: DeliveryZone[]
     orderingEnabled: s.orderingEnabled,
     cashbackPercent: s.cashbackPercent,
     heroImageUrl: s.heroImageUrl,
+    onlinePaymentEnabled: s.onlinePaymentEnabled,
     zones: zones
       .filter((z) => z.isActive)
       .sort((a, b) => a.sortOrder - b.sortOrder)

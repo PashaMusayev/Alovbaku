@@ -10,6 +10,9 @@ interface UiState {
   /** Short confirmation announced to screen readers and shown as a toast. */
   toast: string | null;
   showToast: (message: string) => void;
+  /** Suggested extra after adding a main dish ("Ayran əlavə edək?"). */
+  upsellItemId: string | null;
+  showUpsell: (id: string | null) => void;
 }
 
 let toastTimer: ReturnType<typeof setTimeout> | undefined;
@@ -24,4 +27,6 @@ export const useUi = create<UiState>()((set) => ({
     set({ toast: message });
     toastTimer = setTimeout(() => set({ toast: null }), 2200);
   },
+  upsellItemId: null,
+  showUpsell: (id) => set({ upsellItemId: id }),
 }));

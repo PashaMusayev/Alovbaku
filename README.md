@@ -10,7 +10,7 @@ Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · Supabase · next-intl
 | Phase | Scope | State |
 | --- | --- | --- |
 | 1 | Setup, DB schema, seed, public menu with variants, i18n, design system | ✅ |
-| 2 | Checkout, delivery zones, working hours, Telegram, order tracking | ⏳ |
+| 2 | Checkout, delivery zones, working hours, Telegram, order tracking, upsell & combo switch | ✅ |
 | 3 | Admin panel | ⏳ |
 | 4 | Loyalty, promo codes, reorder, reviews, AI assistant, SEO, PWA | ⏳ |
 | 5 | Tests, accessibility, deploy guide | ⏳ |
@@ -23,7 +23,8 @@ cp .env.example .env.local   # optional — without Supabase the app serves the 
 npm run dev                  # http://localhost:3000  (ru: /ru, en: /en)
 ```
 
-Without Supabase credentials the site runs on the in-memory seed menu, so design and menu work need no backend.
+Without Supabase credentials the site runs on the in-memory seed menu and keeps orders in memory
+(lost on restart), so the whole ordering flow can be tried without any backend.
 
 ## Supabase setup
 
@@ -36,6 +37,27 @@ Without Supabase credentials the site runs on the in-memory seed menu, so design
    If a run failed halfway, run `supabase/scripts/reset.sql` first, then start again (pre-launch only: it deletes all data).
 3. Copy the project URL + anon key (and service-role key) into `.env.local`.
 
+## Telegram order notifications
+
+1. Telegram → **@BotFather** → `/newbot`, copy the token → `TELEGRAM_BOT_TOKEN`.
+2. Add the bot to the staff group and send any message there.
+3. `TELEGRAM_BOT_TOKEN=… node scripts/telegram-setup.mjs` → prints the group id → `TELEGRAM_CHAT_ID`.
+4. Choose a long random `TELEGRAM_WEBHOOK_SECRET`, deploy, then
+   `TELEGRAM_BOT_TOKEN=… TELEGRAM_WEBHOOK_SECRET=… node scripts/telegram-setup.mjs https://your-domain`
+   so the ✅ Qəbul et / ❌ İmtina et / 🔥 Hazırlanır / 🛵 Yoldadır / 🏁 Çatdırıldı buttons update the order
+   (and the customer's tracking page, live).
+
+If Telegram is not configured or fails, the order is still saved and the customer is asked to also send it via WhatsApp.
+
+## Ordering flow
+
+- `POST /api/orders` validates input (zod), the +994 phone, a honeypot, and rate limits (6 per IP, 4 per phone / 10 min),
+  then **recomputes every price from the database** (`src/lib/orders/quote.ts`, shared with the checkout UI) and checks
+  opening hours, pre-order slots and delivery zones before saving via the `create_order` SQL function.
+- Tracking page `/order/<token>`: unguessable token, live via Supabase Realtime broadcast (`order:<token>`) with polling fallback.
+- Online payment is a pluggable module (`src/lib/payments`), disabled by default.
+- Delivery pin uses OpenStreetMap + Leaflet (free, no API key).
+
 ## Scripts
 
 | Command | What it does |
@@ -44,6 +66,8 @@ Without Supabase credentials the site runs on the in-memory seed menu, so design
 | `npm run lint` · `npm run typecheck` · `npm test` | ESLint · tsc · Vitest |
 | `npm run db:seed-sql` | Regenerates `supabase/seed.sql` from `src/data/seed-*.ts` |
 | `npm run db:check` | Applies migrations + seed to a throwaway local Postgres (`DATABASE_URL`) |
+| `node scripts/telegram-setup.mjs [url]` | Lists the bot's chats / sets the Telegram webhook |
+| `node scripts/split-sql.mjs <dir> <files…>` | Splits SQL into ≤7 KB parts for pasting |
 
 ## Key decisions
 

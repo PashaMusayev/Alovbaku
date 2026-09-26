@@ -242,5 +242,6 @@ export interface PublicSettings {
   orderingEnabled: boolean;
   cashbackPercent: number;
   heroImageUrl: string | null;
+  onlinePaymentEnabled: boolean;
   zones: PublicDeliveryZone[];
 }

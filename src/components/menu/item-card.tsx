@@ -1,7 +1,7 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useCart } from "@/lib/cart/store";
+import { useAddToCart } from "@/lib/cart/use-add-to-cart";
 import { useUi } from "@/lib/cart/ui-store";
 import type { PublicItem } from "@/lib/types";
 import { useAppData } from "@/components/providers/app-provider";
@@ -19,14 +19,12 @@ export function ItemCard({ item, priority, compact }: { item: PublicItem; priori
   const t = useTranslations();
   const { settings } = useAppData();
   const openItem = useUi((s) => s.openItem);
-  const showToast = useUi((s) => s.showToast);
-  const add = useCart((s) => s.add);
+  const addToCart = useAddToCart();
   const canOrder = item.inStock && settings.orderingEnabled;
 
   const quickAdd = () => {
     if (needsOptions(item)) return openItem(item.id);
-    add({ itemId: item.id, variantId: item.variants[0].id, addonIds: [], quantity: 1 });
-    showToast(t("item.added", { name: item.name }));
+    addToCart({ itemId: item.id, variantId: item.variants[0].id, addonIds: [], quantity: 1 });
   };
 
   return (
