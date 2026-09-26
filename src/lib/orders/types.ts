@@ -35,8 +35,23 @@ export interface OrderRecord {
   scheduledFor: string | null;
   locale: Locale;
   createdAt: string;
+  /** Where the staff notification was posted (so status changes can update it). */
+  telegramChatId: string | null;
+  telegramMessageId: number | null;
   items: OrderItemRecord[];
   events: { status: OrderStatus; at: string }[];
 }
 
-export type NewOrder = Omit<OrderRecord, "id" | "number" | "token" | "status" | "createdAt" | "events">;
+export type NewOrder = Omit<
+  OrderRecord,
+  "id" | "number" | "token" | "status" | "createdAt" | "events" | "telegramChatId" | "telegramMessageId"
+>;
+
+export interface CustomerRecord {
+  phone: string;
+  name: string | null;
+  orderCount: number;
+  totalSpent: number;
+  firstOrderAt: string | null;
+  lastOrderAt: string | null;
+}

@@ -11,6 +11,10 @@ const nextConfig: NextConfig = {
       : [],
   },
   poweredByHeader: false,
+  experimental: {
+    // Menu photos are cropped and compressed in the browser (≤ 1.4 MB) before upload.
+    serverActions: { bodySizeLimit: "2mb" },
+  },
 };
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");

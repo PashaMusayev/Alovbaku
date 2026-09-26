@@ -150,6 +150,8 @@ describe("formatOrderForStaff", () => {
     scheduledFor: null,
     locale: "az",
     createdAt: "",
+    telegramChatId: null,
+    telegramMessageId: null,
     items: [{ itemId: null, variantId: null, itemName: "Ət dönər", variantLabel: "Lavaşda", addons: ["Ayran 200 ml"], unitPrice: 640, quantity: 1, lineTotal: 640 }],
     events: [],
   };

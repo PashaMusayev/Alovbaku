@@ -1,7 +1,6 @@
 import "server-only";
 import { cache } from "react";
-import { buildSeedMenu, buildSeedZones } from "@/data/seed-build";
-import { SEED_SETTINGS } from "@/data/seed-settings";
+import { memoryDb } from "@/lib/data/memory-db";
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import { getPublicClient } from "@/lib/supabase/public";
 import type {
@@ -247,13 +246,13 @@ async function fetchZonesFromSupabase(): Promise<DeliveryZone[]> {
 
 /** Full menu (including hidden items). Deduplicated per request. */
 export const getMenuData = cache(async (): Promise<MenuData> => {
-  return isSupabaseConfigured() ? fetchMenuFromSupabase() : buildSeedMenu();
+  return isSupabaseConfigured() ? fetchMenuFromSupabase() : structuredClone(memoryDb().menu);
 });
 
 export const getSettings = cache(async (): Promise<RestaurantSettings> => {
-  return isSupabaseConfigured() ? fetchSettingsFromSupabase() : SEED_SETTINGS;
+  return isSupabaseConfigured() ? fetchSettingsFromSupabase() : structuredClone(memoryDb().settings);
 });
 
 export const getDeliveryZones = cache(async (): Promise<DeliveryZone[]> => {
-  return isSupabaseConfigured() ? fetchZonesFromSupabase() : buildSeedZones();
+  return isSupabaseConfigured() ? fetchZonesFromSupabase() : structuredClone(memoryDb().zones);
 });

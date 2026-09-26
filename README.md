@@ -11,7 +11,7 @@ Next.js 16 (App Router) · TypeScript · Tailwind CSS 4 · Supabase · next-intl
 | --- | --- | --- |
 | 1 | Setup, DB schema, seed, public menu with variants, i18n, design system | ✅ |
 | 2 | Checkout, delivery zones, working hours, Telegram, order tracking, upsell & combo switch | ✅ |
-| 3 | Admin panel | ⏳ |
+| 3 | Admin panel: live orders, menu editor, data checks, settings, analytics, customers | ✅ |
 | 4 | Loyalty, promo codes, reorder, reviews, AI assistant, SEO, PWA | ⏳ |
 | 5 | Tests, accessibility, deploy guide | ⏳ |
 
@@ -48,6 +48,29 @@ Without Supabase credentials the site runs on the in-memory seed menu and keeps 
    (and the customer's tracking page, live).
 
 If Telegram is not configured or fails, the order is still saved and the customer is asked to also send it via WhatsApp.
+
+## Admin panel (`/admin`)
+
+Setup (once):
+1. Supabase SQL editor → run `supabase/migrations/20260928000000_admin.sql`.
+2. Supabase → **Authentication → Users → Add user**: e-mail + password, tick **Auto Confirm User**.
+3. Supabase → **Authentication → Sign In / Providers**: turn **off** "Allow new users to sign up".
+4. Vercel → `ADMIN_EMAILS=that@email` → Redeploy. Log in at `/admin/login`; that user is added to `admin_users`.
+
+Locally without Supabase: `ADMIN_DEMO_PASSWORD=… npm run dev` and log in with just the password.
+
+What staff get (Azerbaijani, phone-first):
+- **Sifarişlər** — live board (5 s refresh), sound + vibration for new orders that repeats until accepted,
+  one-tap status buttons (kept in sync with the Telegram message), order details, printable 80 mm kitchen ticket.
+- **Menyu** — data checks (abnormal price vs. category, bigger size cheaper, unnamed variants, empty descriptions,
+  duplicates, review notes), drag-to-reorder categories, one-tap "stokda yoxdur" / hide, item editor with az/ru/en
+  texts, variants, add-on groups, tags and a photo cropper (4:3, WebP, compressed in the browser), combos status,
+  add-on prices.
+- **Statistika** — orders, revenue, average order, new vs. returning customers, daily charts, peak hours, top items.
+- **Müştərilər** — searchable list and CSV export (Excel-ready).
+- **Ayarlar** — ordering switches, opening hours, delivery zones, contacts/address/map, cashback %, Telegram group, price-check threshold.
+
+Every admin change refreshes the cached public pages immediately.
 
 ## Ordering flow
 

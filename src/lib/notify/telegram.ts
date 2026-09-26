@@ -63,14 +63,16 @@ function messageText(order: OrderRecord): string {
   return formatOrderForStaff(order, { html: true }) + status;
 }
 
-export async function sendOrderToTelegram(order: OrderRecord, chatId: string): Promise<void> {
-  await telegramCall("sendMessage", {
+/** Posts the order to the staff group; returns the message id. */
+export async function sendOrderToTelegram(order: OrderRecord, chatId: string): Promise<number> {
+  const message = await telegramCall<{ message_id: number }>("sendMessage", {
     chat_id: chatId,
     text: messageText(order),
     parse_mode: "HTML",
     disable_web_page_preview: true,
     reply_markup: orderKeyboard(order),
   });
+  return message.message_id;
 }
 
 /** Refreshes the order message after a status change (new status line + next buttons). */

@@ -8,7 +8,7 @@ import { isTelegramConfigured, sendOrderToTelegram } from "@/lib/notify/telegram
 import { formatOrderForStaff } from "./format";
 import { computeQuote, type QuoteError } from "./quote";
 import type { OrderRequest } from "./schema";
-import { createOrder, getTelegramChatId, hitRateLimit } from "./store";
+import { createOrder, getTelegramChatId, hitRateLimit, setTelegramMessage } from "./store";
 import type { OrderRecord } from "./types";
 
 export type PlaceOrderResult =
@@ -95,8 +95,9 @@ export async function placeOrder(input: OrderRequest, clientIp: string, now = ne
     try {
       const chatId = await getTelegramChatId();
       if (chatId) {
-        await sendOrderToTelegram(order, chatId);
+        const messageId = await sendOrderToTelegram(order, chatId);
         notified = true;
+        await setTelegramMessage(order.id, chatId, messageId).catch((e) => console.error("[order] saving Telegram message id failed", e));
       }
     } catch (error) {
       // The order is saved; the customer gets the WhatsApp fallback button.

@@ -4,7 +4,8 @@ import { getServiceClient, isServiceRoleConfigured } from "@/lib/supabase/admin"
 import { isSupabaseConfigured } from "@/lib/supabase/config";
 import type { Locale } from "@/lib/types";
 import { canTransition, type Fulfillment, type OrderStatus, type PaymentMethod } from "./status";
-import type { NewOrder, OrderRecord } from "./types";
+import { memoryDb } from "@/lib/data/memory-db";
+import type { CustomerRecord, NewOrder, OrderRecord } from "./types";
 
 /**
  * Order persistence. Uses Supabase (service role) when configured; otherwise an
@@ -58,6 +59,8 @@ interface OrderRow {
   scheduled_for: string | null;
   locale: Locale;
   created_at: string;
+  telegram_chat_id: string | null;
+  telegram_message_id: number | null;
   order_items: {
     item_id: string | null;
     variant_id: string | null;
@@ -96,6 +99,8 @@ function mapOrder(r: OrderRow): OrderRecord {
     scheduledFor: r.scheduled_for,
     locale: r.locale,
     createdAt: r.created_at,
+    telegramChatId: r.telegram_chat_id ?? null,
+    telegramMessageId: r.telegram_message_id ?? null,
     items: r.order_items.map((i) => ({
       itemId: i.item_id,
       variantId: i.variant_id,
@@ -126,6 +131,8 @@ export async function createOrder(order: NewOrder): Promise<OrderRecord> {
       token: randomBytes(16).toString("hex"),
       status: "new",
       createdAt: now,
+      telegramChatId: null,
+      telegramMessageId: null,
       events: [{ status: "new", at: now }],
     };
     memOrders().set(record.id, record);
@@ -241,7 +248,72 @@ export async function hitRateLimit(bucket: string, windowSeconds: number, max: n
 export async function getTelegramChatId(): Promise<string | null> {
   const fromEnv = process.env.TELEGRAM_CHAT_ID?.trim();
   if (fromEnv) return fromEnv;
-  if (!supabaseBacked()) return null;
+  if (!supabaseBacked()) return memoryDb().privateSettings.telegramChatId;
   const { data } = await getServiceClient().from("private_settings").select("telegram_chat_id").eq("id", 1).maybeSingle();
   return (data as { telegram_chat_id: string | null } | null)?.telegram_chat_id ?? null;
+}
+
+/** Remembers which Telegram message announced the order. */
+export async function setTelegramMessage(orderId: string, chatId: string, messageId: number): Promise<void> {
+  if (!supabaseBacked()) {
+    const order = memOrders().get(orderId);
+    if (order) memOrders().set(orderId, { ...order, telegramChatId: chatId, telegramMessageId: messageId });
+    return;
+  }
+  const { error } = await getServiceClient()
+    .from("orders")
+    .update({ telegram_chat_id: chatId, telegram_message_id: messageId })
+    .eq("id", orderId);
+  if (error) throw new OrderBackendError(error.message);
+}
+
+/** Orders created at or after `since`, newest first (admin board, analytics). */
+export async function listOrders(since: Date, limit = 2000): Promise<OrderRecord[]> {
+  if (!supabaseBacked()) {
+    return [...memOrders().values()]
+      .filter((o) => new Date(o.createdAt) >= since)
+      .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+      .slice(0, limit);
+  }
+  const { data, error } = await getServiceClient()
+    .from("orders")
+    .select(ORDER_SELECT)
+    .gte("created_at", since.toISOString())
+    .order("created_at", { ascending: false })
+    .limit(limit);
+  if (error) throw new OrderBackendError(error.message);
+  return (data as OrderRow[]).map(mapOrder);
+}
+
+/** Customer list for marketing (phone is the identity). */
+export async function listCustomers(): Promise<CustomerRecord[]> {
+  if (!supabaseBacked()) {
+    const byPhone = new Map<string, CustomerRecord>();
+    for (const o of [...memOrders().values()].sort((a, b) => a.createdAt.localeCompare(b.createdAt))) {
+      const c = byPhone.get(o.phone) ?? { phone: o.phone, name: null, orderCount: 0, totalSpent: 0, firstOrderAt: o.createdAt, lastOrderAt: null };
+      byPhone.set(o.phone, { ...c, name: o.customerName, orderCount: c.orderCount + 1, totalSpent: c.totalSpent + o.total, lastOrderAt: o.createdAt });
+    }
+    return [...byPhone.values()].sort((a, b) => (b.lastOrderAt ?? "").localeCompare(a.lastOrderAt ?? ""));
+  }
+  const { data, error } = await getServiceClient()
+    .from("customers")
+    .select("phone, name, order_count, total_spent, first_order_at, last_order_at")
+    .order("last_order_at", { ascending: false, nullsFirst: false })
+    .limit(5000);
+  if (error) throw new OrderBackendError(error.message);
+  return (
+    data as { phone: string; name: string | null; order_count: number; total_spent: number; first_order_at: string | null; last_order_at: string | null }[]
+  ).map((c) => ({
+    phone: c.phone,
+    name: c.name,
+    orderCount: c.order_count,
+    totalSpent: c.total_spent,
+    firstOrderAt: c.first_order_at,
+    lastOrderAt: c.last_order_at,
+  }));
+}
+
+/** Admin board feed: everything from the last 36 hours (open orders, today's finished ones). */
+export function listBoardOrders(): Promise<OrderRecord[]> {
+  return listOrders(new Date(Date.now() - 36 * 60 * 60 * 1000), 300);
 }
