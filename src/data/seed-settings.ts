@@ -3,7 +3,7 @@ import type { DeliveryZone, OpeningHoursDay, RestaurantSettings } from "@/lib/ty
 /**
  * Settings confirmed by the restaurant (2026-09-26): open daily 10:00–03:00,
  * free delivery, no minimum order, no delivery zones.
- * The street address text is still a placeholder.
+ * Map pin confirmed; the street address text is still a placeholder.
  */
 export const DEFAULT_OPENING_HOURS: OpeningHoursDay[] = [0, 1, 2, 3, 4, 5, 6].map((day) => ({
   day,
@@ -18,10 +18,11 @@ export const SEED_SETTINGS: RestaurantSettings = {
   whatsapp: "+994552437999",
   instagram: "alov_baku_",
   address: { az: "Bakı, Azərbaycan", ru: "Баку, Азербайджан", en: "Baku, Azerbaijan" },
-  lat: 40.4093,
-  lng: 49.8671,
+  // 40°23'06.3"N 49°58'45.9"E (confirmed by the restaurant)
+  lat: 40.385083,
+  lng: 49.979417,
   googleMapsUrl: "https://maps.app.goo.gl/c1NGwEfpxcu64au59",
-  mapEmbedQuery: "Alov Baku, Bakı",
+  mapEmbedQuery: "40.385083,49.979417",
   googleReviewUrl: "",
   timezone: "Asia/Baku",
   openingHours: DEFAULT_OPENING_HOURS,

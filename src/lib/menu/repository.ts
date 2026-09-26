@@ -22,8 +22,7 @@ import type {
 interface VariantRow {
   id: string;
   label: LocalizedText | null;
-  price_site: number;
-  price_wolt: number | null;
+  price: number;
   sort_order: number;
   is_available: boolean;
 }
@@ -39,8 +38,6 @@ interface ItemRow {
   is_new: boolean;
   is_hidden: boolean;
   in_stock: boolean;
-  available_site: boolean;
-  available_wolt: boolean;
   featured_rank: number | null;
   sort_order: number;
   needs_review: boolean;
@@ -67,8 +64,7 @@ interface AddonGroupRow {
   addon_options: {
     id: string;
     name: LocalizedText;
-    price_site: number;
-    price_wolt: number | null;
+    price: number;
     linked_variant_id: string | null;
     sort_order: number;
     is_available: boolean;
@@ -96,8 +92,6 @@ function mapItem(row: ItemRow): MenuItem {
     isNew: row.is_new,
     isHidden: row.is_hidden,
     inStock: row.in_stock,
-    availableSite: row.available_site,
-    availableWolt: row.available_wolt,
     featuredRank: row.featured_rank,
     sortOrder: row.sort_order,
     needsReview: row.needs_review,
@@ -106,8 +100,7 @@ function mapItem(row: ItemRow): MenuItem {
     variants: [...row.item_variants].sort(bySort).map((v) => ({
       id: v.id,
       label: v.label,
-      priceSite: v.price_site,
-      priceWolt: v.price_wolt,
+      price: v.price,
       sortOrder: v.sort_order,
       isAvailable: v.is_available,
     })),
@@ -153,8 +146,7 @@ async function fetchMenuFromSupabase(): Promise<MenuData> {
         options: [...g.addon_options].sort(bySort).map((o) => ({
           id: o.id,
           name: o.name,
-          priceSite: o.price_site,
-          priceWolt: o.price_wolt,
+          price: o.price,
           linkedVariantId: o.linked_variant_id,
           sortOrder: o.sort_order,
           isAvailable: o.is_available,
@@ -253,7 +245,7 @@ async function fetchZonesFromSupabase(): Promise<DeliveryZone[]> {
   }));
 }
 
-/** Full menu (including hidden items and both channels). Deduplicated per request. */
+/** Full menu (including hidden items). Deduplicated per request. */
 export const getMenuData = cache(async (): Promise<MenuData> => {
   return isSupabaseConfigured() ? fetchMenuFromSupabase() : buildSeedMenu();
 });

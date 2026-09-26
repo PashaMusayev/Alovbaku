@@ -48,9 +48,8 @@ Without Supabase credentials the site runs on the in-memory seed menu, so design
 ## Key decisions
 
 - **Money is integer qəpik**, formatted everywhere as `8,70 ₼` (`src/lib/money.ts`).
-- **One source of truth for prices**: every item has ≥1 variant with a `price_site` and an optional `price_wolt`,
-  plus `available_site` / `available_wolt` flags. Wolt data is **internal only** (admin tools): the public site shows
-  site prices and never mentions Wolt. Wolt prices being higher than site prices is expected (commission).
+- **One price per variant**: every item has ≥1 variant with its own `price`. The site has no third-party
+  delivery-platform prices or references (owner's decision).
 - **Variants, never duplicate items** — pizza sizes, dönər bread types, drink sizes are chips inside one item.
 - **Localized DB text** is `jsonb {az, ru, en}`, falling back to Azerbaijani. All UI strings live in `messages/*.json`.
 - **Seed data flags** suspicious source data with `needs_review` + a note (e.g. kartof fri 12,10 ₼) for the admin validation list.

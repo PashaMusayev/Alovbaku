@@ -1,9 +1,8 @@
 /**
- * Seed menu, transcribed from the restaurant's current Wolt menu and website.
+ * Seed menu, transcribed from the restaurant's existing menus and corrected
+ * with the owner's answers.
  *
  * - Prices are in manat here for readability and converted to qəpik on load.
- * - Unless noted, a price is both the Wolt price and the initial site price.
- * - `siteOnly` items exist only on the current website (no Wolt listing).
  * - `review` marks data that looks wrong in the source; it is seeded as-is
  *   with `needs_review = true` so it shows up in the admin validation list.
  *
@@ -15,9 +14,7 @@ import type { ItemTag, LocalizedText } from "@/lib/types";
 
 export interface SeedVariant {
   label?: LocalizedText;
-  site: number;
-  /** undefined → same as site; null → not sold on Wolt. */
-  wolt?: number | null;
+  price: number;
 }
 
 export interface SeedItem {
@@ -29,7 +26,6 @@ export interface SeedItem {
   isNew?: boolean;
   featured?: number;
   variants: SeedVariant[];
-  siteOnly?: boolean;
   hidden?: boolean;
   review?: string;
   addons?: string[];
@@ -74,7 +70,7 @@ export interface SeedCombo {
   components: SeedComboComponent[];
 }
 
-const single = (site: number, wolt?: number | null): SeedVariant[] => [{ site, wolt }];
+const single = (price: number): SeedVariant[] => [{ price }];
 
 const BREAD = {
   tendir: { az: "Təndir çörəyində", ru: "В тандырном хлебе", en: "In tandoor bread" },
@@ -91,9 +87,9 @@ const SIZE = {
 } satisfies Record<string, LocalizedText>;
 
 const pizza = (s: number, m: number, l: number): SeedVariant[] => [
-  { label: SIZE.s, site: s },
-  { label: SIZE.m, site: m },
-  { label: SIZE.l, site: l },
+  { label: SIZE.s, price: s },
+  { label: SIZE.m, price: m },
+  { label: SIZE.l, price: l },
 ];
 
 const DONER_ADDONS = ["doner-extras", "sauces", "drinks"];
@@ -115,11 +111,11 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         tags: ["meat"],
         featured: 1,
         variants: [
-          { label: BREAD.tendir, site: 4.1 },
-          { label: BREAD.turk, site: 4.1 },
-          { label: BREAD.lavas, site: 5.3 },
-          { label: BREAD.limuzin, site: 4.6 },
-          { label: BREAD.tombik, site: 5.6 },
+          { label: BREAD.tendir, price: 4.1 },
+          { label: BREAD.turk, price: 4.1 },
+          { label: BREAD.lavas, price: 5.3 },
+          { label: BREAD.limuzin, price: 4.6 },
+          { label: BREAD.tombik, price: 5.6 },
         ],
         addons: DONER_ADDONS,
       },
@@ -189,11 +185,11 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         tags: ["chicken"],
         featured: 3,
         variants: [
-          { label: BREAD.tendir, site: 3.7 },
-          { label: BREAD.turk, site: 3.7 },
-          { label: BREAD.lavas, site: 4.6 },
-          { label: BREAD.limuzin, site: 3.8 },
-          { label: BREAD.tombik, site: 5.3 },
+          { label: BREAD.tendir, price: 3.7 },
+          { label: BREAD.turk, price: 3.7 },
+          { label: BREAD.lavas, price: 4.6 },
+          { label: BREAD.limuzin, price: 3.8 },
+          { label: BREAD.tombik, price: 5.3 },
         ],
         addons: DONER_ADDONS,
       },
@@ -326,7 +322,7 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         description: { az: "Toyuq şaurma lavaşda.", ru: "Куриная шаурма в лаваше.", en: "Chicken shawarma in lavash." },
         tags: ["chicken"],
         featured: 5,
-        variants: [{ label: BREAD.lavas, site: 5.6 }],
+        variants: [{ label: BREAD.lavas, price: 5.6 }],
         addons: DONER_ADDONS,
       },
       {
@@ -336,8 +332,8 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         tags: ["meat"],
         featured: 6,
         variants: [
-          { label: { az: "Çörəkdə", ru: "В хлебе", en: "In bread" }, site: 6.1 },
-          { label: BREAD.lavas, site: 6.9 },
+          { label: { az: "Çörəkdə", ru: "В хлебе", en: "In bread" }, price: 6.1 },
+          { label: BREAD.lavas, price: 6.9 },
         ],
         addons: DONER_ADDONS,
       },
@@ -405,7 +401,7 @@ export const SEED_CATEGORIES: SeedCategory[] = [
           en: "Tomato sauce, mozzarella, chicken, mushrooms.",
         },
         tags: ["chicken"],
-        variants: [{ label: SIZE.s, site: 8.1 }],
+        variants: [{ label: SIZE.s, price: 8.1 }],
         review: "Yalnız bir ölçü var (Kiçik, 8,10 ₼) — Orta və Böyük ölçülərin qiymətini əlavə edin.",
         addons: ["pizza-extras", "drinks"],
       },
@@ -556,8 +552,7 @@ export const SEED_CATEGORIES: SeedCategory[] = [
           en: "Meat döner in tandoor bread and Azərsüd Ayran 200 ml.",
         },
         tags: ["meat"],
-        variants: single(4.9, null),
-        siteOnly: true,
+        variants: single(4.9),
         hidden: true,
       },
       {
@@ -569,8 +564,7 @@ export const SEED_CATEGORIES: SeedCategory[] = [
           en: "Large Mixed pizza + 4 lahmacun + Coca-Cola 1 L.",
         },
         tags: ["meat"],
-        variants: single(31.9, null),
-        siteOnly: true,
+        variants: single(31.9),
         hidden: true,
       },
       {
@@ -582,8 +576,7 @@ export const SEED_CATEGORIES: SeedCategory[] = [
           en: "Lamb lula + chicken lula + 2 ayran.",
         },
         tags: ["meat", "chicken"],
-        variants: single(17.9, null),
-        siteOnly: true,
+        variants: single(17.9),
         hidden: true,
       },
     ],
@@ -677,9 +670,8 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         name: { az: "Kartof fri", ru: "Картофель фри", en: "French fries" },
         description: { az: "Qızardılmış kartof.", ru: "Картофель фри.", en: "Crispy fried potatoes." },
         tags: ["vegetarian"],
-        // Site price confirmed by the restaurant (2,50 ₼); the Wolt listing shows 12,10 ₼.
-        variants: single(2.5, 12.1),
-        review: "Wolt siyahısında 12,10 ₼ göstərilir (sayt qiyməti 2,50 ₼) — Wolt qiymətini düzəldin.",
+        // Price confirmed by the restaurant.
+        variants: single(2.5),
         addons: ["sauces"],
       },
       {
@@ -688,8 +680,8 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         description: { az: "Xırtıldayan toyuq naggets.", ru: "Хрустящие куриные наггетсы.", en: "Crispy chicken nuggets." },
         tags: ["chicken"],
         variants: [
-          { label: { az: "3 əd.", ru: "3 шт.", en: "3 pcs" }, site: 3.8 },
-          { label: { az: "6 əd.", ru: "6 шт.", en: "6 pcs" }, site: 4.6 },
+          { label: { az: "3 əd.", ru: "3 шт.", en: "3 pcs" }, price: 3.8 },
+          { label: { az: "6 əd.", ru: "6 шт.", en: "6 pcs" }, price: 4.6 },
         ],
         review: "6 əd. (4,60 ₼) 3 əd. (3,80 ₼) ilə müqayisədə şübhəli dərəcədə ucuzdur. Qiymətləri təsdiqləyin.",
         addons: ["sauces"],
@@ -714,10 +706,10 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         description: { az: "Qızardılmış pendir çubuqları.", ru: "Жареные сырные палочки.", en: "Fried cheese sticks." },
         tags: ["vegetarian"],
         variants: [
-          { label: { az: "4 əd.", ru: "4 шт.", en: "4 pcs" }, site: 4.6 },
-          { site: 7.6 },
+          { label: { az: "4 əd.", ru: "4 шт.", en: "4 pcs" }, price: 4.6 },
+          { price: 7.6 },
         ],
-        review: "Wolt-da eyni məhsul iki dəfə var (4 əd. 4,60 ₼ və 7,60 ₼). İkinci variantın adı yoxdur — ölçüsünü yazın və ya silin.",
+        review: "Köhnə menyuda eyni məhsul iki dəfə var (4 əd. 4,60 ₼ və 7,60 ₼). İkinci variantın adı yoxdur — ölçüsünü yazın və ya silin.",
         addons: ["sauces"],
       },
     ],
@@ -739,7 +731,7 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         name: { az: "Toyuq şorbası", ru: "Куриный суп", en: "Chicken soup" },
         description: { az: "Təzə toyuq əti ilə.", ru: "Со свежим куриным мясом.", en: "With fresh chicken." },
         tags: ["chicken"],
-        variants: single(3.0, 4.6),
+        variants: single(3.0),
       },
       {
         slug: "dovga",
@@ -750,8 +742,7 @@ export const SEED_CATEGORIES: SeedCategory[] = [
           en: "National yogurt and herb soup.",
         },
         tags: ["vegetarian"],
-        variants: single(3.0, null),
-        siteOnly: true,
+        variants: single(3.0),
       },
     ],
   },
@@ -765,36 +756,32 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         name: { az: "Çoban salatı", ru: "Салат Чобан", en: "Shepherd's salad" },
         description: { az: "Təzə pomidor və xiyar.", ru: "Свежие помидоры и огурцы.", en: "Fresh tomato and cucumber." },
         tags: ["vegetarian"],
-        variants: single(3.0, 4.6),
+        variants: single(3.0),
       },
       {
         slug: "sezar-salati",
         name: { az: "Sezar salatı", ru: "Салат Цезарь", en: "Caesar salad" },
         description: { az: "Klassik Sezar, təzə yaşıllıqlarla.", ru: "Классический Цезарь со свежей зеленью.", en: "Classic Caesar with fresh greens." },
-        variants: single(7.0, null),
-        siteOnly: true,
+        variants: single(7.0),
       },
       {
         slug: "mimoza-salati",
         name: { az: "Mimoza salatı", ru: "Салат Мимоза", en: "Mimosa salad" },
         description: { az: "Qatlı, çuğundur ilə.", ru: "Слоёный, со свёклой.", en: "Layered, with beetroot." },
-        variants: single(4.5, null),
-        siteOnly: true,
+        variants: single(4.5),
       },
       {
         slug: "toyuq-salati",
         name: { az: "Toyuq salatı", ru: "Салат с курицей", en: "Chicken salad" },
         description: { az: "Qızardılmış toyuq əti ilə.", ru: "С жареной курицей.", en: "With fried chicken." },
         tags: ["chicken"],
-        variants: single(4.0, null),
-        siteOnly: true,
+        variants: single(4.0),
       },
       {
         slug: "paytaxt-salati",
         name: { az: "Paytaxt salatı", ru: "Салат Столичный", en: "Capital salad" },
         description: { az: "Ənənəvi Paytaxt salatı.", ru: "Традиционный салат Столичный.", en: "Traditional Olivier-style salad." },
-        variants: single(3.5, null),
-        siteOnly: true,
+        variants: single(3.5),
       },
     ],
   },
@@ -808,10 +795,10 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         name: { az: "Coca-Cola", ru: "Coca-Cola", en: "Coca-Cola" },
         description: { az: "Soyuq Coca-Cola.", ru: "Холодная Coca-Cola.", en: "Chilled Coca-Cola." },
         variants: [
-          { label: { az: "300 ml", ru: "300 мл", en: "300 ml" }, site: 1.6 },
-          { label: { az: "500 ml", ru: "500 мл", en: "500 ml" }, site: 2.6 },
-          { label: { az: "1 L", ru: "1 л", en: "1 L" }, site: 4.6 },
-          { label: { az: "330 ml", ru: "330 мл", en: "330 ml" }, site: 4.6 },
+          { label: { az: "300 ml", ru: "300 мл", en: "300 ml" }, price: 1.6 },
+          { label: { az: "500 ml", ru: "500 мл", en: "500 ml" }, price: 2.6 },
+          { label: { az: "1 L", ru: "1 л", en: "1 L" }, price: 4.6 },
+          { label: { az: "330 ml", ru: "330 мл", en: "330 ml" }, price: 4.6 },
         ],
         review: "330 ml (4,60 ₼) 500 ml-dən (2,60 ₼) bahadır — qiyməti təsdiqləyin.",
       },
@@ -820,10 +807,10 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         name: { az: "Fanta", ru: "Fanta", en: "Fanta" },
         description: { az: "Soyuq Fanta.", ru: "Холодная Fanta.", en: "Chilled Fanta." },
         variants: [
-          { label: { az: "300 ml", ru: "300 мл", en: "300 ml" }, site: 1.6 },
-          { label: { az: "500 ml", ru: "500 мл", en: "500 ml" }, site: 2.6 },
-          { label: { az: "1 L", ru: "1 л", en: "1 L" }, site: 4.6 },
-          { label: { az: "330 ml", ru: "330 мл", en: "330 ml" }, site: 4.6 },
+          { label: { az: "300 ml", ru: "300 мл", en: "300 ml" }, price: 1.6 },
+          { label: { az: "500 ml", ru: "500 мл", en: "500 ml" }, price: 2.6 },
+          { label: { az: "1 L", ru: "1 л", en: "1 L" }, price: 4.6 },
+          { label: { az: "330 ml", ru: "330 мл", en: "330 ml" }, price: 4.6 },
         ],
         review: "330 ml (4,60 ₼) 500 ml-dən (2,60 ₼) bahadır — qiyməti təsdiqləyin.",
       },
@@ -832,8 +819,8 @@ export const SEED_CATEGORIES: SeedCategory[] = [
         name: { az: "Sprite", ru: "Sprite", en: "Sprite" },
         description: { az: "Soyuq Sprite.", ru: "Холодный Sprite.", en: "Chilled Sprite." },
         variants: [
-          { label: { az: "300 ml", ru: "300 мл", en: "300 ml" }, site: 1.6 },
-          { label: { az: "500 ml", ru: "500 мл", en: "500 ml" }, site: 2.6 },
+          { label: { az: "300 ml", ru: "300 мл", en: "300 ml" }, price: 1.6 },
+          { label: { az: "500 ml", ru: "500 мл", en: "500 ml" }, price: 2.6 },
         ],
       },
       {

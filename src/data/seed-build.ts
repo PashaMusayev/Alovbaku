@@ -45,8 +45,6 @@ export function buildSeedMenu(): MenuData {
       isNew: it.isNew ?? false,
       isHidden: it.hidden ?? false,
       inStock: true,
-      availableSite: true,
-      availableWolt: !it.siteOnly,
       featuredRank: it.featured ?? null,
       sortOrder: i + 1,
       needsReview: Boolean(it.review),
@@ -55,8 +53,7 @@ export function buildSeedMenu(): MenuData {
       variants: it.variants.map((v, vi) => ({
         id: seedUuid(variantKey(it.slug, vi)),
         label: v.label ?? null,
-        priceSite: toQepik(v.site),
-        priceWolt: it.siteOnly || v.wolt === null ? null : toQepik(v.wolt ?? v.site),
+        price: toQepik(v.price),
         sortOrder: vi + 1,
         isAvailable: true,
       })),
@@ -85,8 +82,7 @@ export function buildSeedMenu(): MenuData {
     options: g.options.map((o, oi) => ({
       id: seedUuid(`addon:${g.slug}:${o.slug}`),
       name: o.name,
-      priceSite: toQepik(o.price),
-      priceWolt: toQepik(o.price),
+      price: toQepik(o.price),
       linkedVariantId: o.linked ? resolveVariant(o.linked) : null,
       sortOrder: oi + 1,
       isAvailable: !o.unconfirmed,

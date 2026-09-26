@@ -17,3 +17,6 @@ alter table storage.objects enable row level security;
 do $$ begin
   if not exists (select from pg_publication where pubname = 'supabase_realtime') then create publication supabase_realtime; end if;
 end $$;
+create schema if not exists realtime;
+create or replace function realtime.send(payload jsonb, event text, topic text, private boolean default true)
+returns void language sql as $$ select null::void $$;

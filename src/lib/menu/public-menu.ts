@@ -12,10 +12,9 @@ import type {
   RestaurantSettings,
 } from "@/lib/types";
 
-/** Is the item orderable on the website at all (ignoring stock)? */
+/** Is the item shown on the website at all (ignoring stock)? */
 export function isVisibleOnSite(item: MenuItem, visibleCategoryIds: Set<string>): boolean {
   return (
-    item.availableSite &&
     !item.isHidden &&
     visibleCategoryIds.has(item.categoryId) &&
     item.variants.some((v) => v.isAvailable)
@@ -25,15 +24,14 @@ export function isVisibleOnSite(item: MenuItem, visibleCategoryIds: Set<string>)
 /** Price lookup for every variant (needed for add-ons linked to a product). */
 function variantPriceIndex(data: MenuData): Map<string, number> {
   const index = new Map<string, number>();
-  for (const item of data.items) for (const v of item.variants) index.set(v.id, v.priceSite);
+  for (const item of data.items) for (const v of item.variants) index.set(v.id, v.price);
   return index;
 }
 
 const MAX_BESTSELLERS = 8;
 
 /**
- * Localized, site-channel view of the menu for the client.
- * Contains site prices only — nothing about other sales channels reaches the public site.
+ * Localized view of the orderable menu for the client.
  * `salesRank` (item id → units sold) overrides the manual featured order when available.
  */
 export function buildPublicMenu(data: MenuData, locale: Locale, salesRank?: Map<string, number>): PublicMenu {
@@ -67,7 +65,7 @@ export function buildPublicMenu(data: MenuData, locale: Locale, salesRank?: Map<
         .map((v) => ({
           id: v.id,
           label: v.label ? localize(v.label, locale) || null : null,
-          price: v.priceSite,
+          price: v.price,
         })),
       addonGroupIds: item.addonGroupIds.filter((id) => groupsWithOptions.has(id)),
     };
@@ -98,7 +96,7 @@ export function buildPublicMenu(data: MenuData, locale: Locale, salesRank?: Map<
         .map((o) => ({
           id: o.id,
           name: localize(o.name, locale),
-          price: (o.linkedVariantId ? variantPrices.get(o.linkedVariantId) : undefined) ?? o.priceSite,
+          price: (o.linkedVariantId ? variantPrices.get(o.linkedVariantId) : undefined) ?? o.price,
         })),
     };
   }

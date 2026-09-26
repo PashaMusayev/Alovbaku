@@ -24,9 +24,6 @@ describe("seed menu", () => {
     expect(bySlug("kartof-fri").variants[0].price).toBe(250);
     expect(bySlug("coban-salati").variants[0].price).toBe(300);
   });
-  it("sends nothing about Wolt to the public site", () => {
-    expect(JSON.stringify(menu).toLowerCase()).not.toContain("wolt");
-  });
   it("hides add-ons whose prices are not confirmed yet", () => {
     const doner = bySlug("et-doner");
     const groups = doner.addonGroupIds.map((id) => menu.addonGroups[id]);

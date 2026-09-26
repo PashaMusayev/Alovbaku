@@ -13,8 +13,6 @@ export const DEFAULT_LOCALE: Locale = "az";
 /** Text stored per language. Azerbaijani is mandatory, others fall back to it. */
 export type LocalizedText = { az: string; ru?: string; en?: string };
 
-export type Channel = "site" | "wolt";
-
 export const ITEM_TAGS = ["spicy", "chicken", "meat", "vegetarian", "seafood"] as const;
 export type ItemTag = (typeof ITEM_TAGS)[number];
 
@@ -35,9 +33,7 @@ export interface ItemVariant {
   id: string;
   /** Null for single-price items (the only variant is implicit). */
   label: LocalizedText | null;
-  priceSite: number;
-  /** Null when there is no Wolt price for this variant. */
-  priceWolt: number | null;
+  price: number;
   sortOrder: number;
   isAvailable: boolean;
 }
@@ -45,8 +41,7 @@ export interface ItemVariant {
 export interface AddonOption {
   id: string;
   name: LocalizedText;
-  priceSite: number;
-  priceWolt: number | null;
+  price: number;
   /** When set, the option is a menu product (e.g. a drink) and its price follows that variant. */
   linkedVariantId: string | null;
   sortOrder: number;
@@ -75,8 +70,6 @@ export interface MenuItem {
   isNew: boolean;
   isHidden: boolean;
   inStock: boolean;
-  availableSite: boolean;
-  availableWolt: boolean;
   /** Manual position in "Ən çox sifariş edilənlər" until sales data takes over. */
   featuredRank: number | null;
   sortOrder: number;
@@ -159,7 +152,7 @@ export interface MenuData {
 }
 
 /* ------------------------------------------------------------------ */
-/* Public (localized, channel-filtered) view model sent to the client  */
+/* Public (localized, orderable-only) view model sent to the client   */
 /* ------------------------------------------------------------------ */
 
 export interface PublicVariant {

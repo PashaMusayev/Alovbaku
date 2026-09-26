@@ -1,6 +1,5 @@
 -- Restaurant feedback (2026-09-26):
---   * The public site must not show anything about Wolt → drop the "Wolt-dan ucuz" banner settings.
---     (Wolt prices stay on menu variants for internal use only.)
+--   * The public site must not show anything about the delivery platform → drop the banner settings.
 --   * Map embed uses a search query until exact coordinates are set.
 
 alter table public.restaurant_settings
