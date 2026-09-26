@@ -31,6 +31,9 @@ Without Supabase credentials the site runs on the in-memory seed menu, so design
 2. SQL editor → run every file in `supabase/migrations/` in name order, then `supabase/seed.sql`
    (the seed upserts, so it can be re-run before launch — it overwrites edits to seeded rows)
    (or `supabase db push` + `psql -f supabase/seed.sql` with the Supabase CLI).
+   Paste each **whole file** (GitHub → “Copy raw file” button) into a new query with nothing selected —
+   the SQL editor runs only the selected text if there is a selection.
+   If a run failed halfway, run `supabase/scripts/reset.sql` first, then start again (pre-launch only: it deletes all data).
 3. Copy the project URL + anon key (and service-role key) into `.env.local`.
 
 ## Scripts
