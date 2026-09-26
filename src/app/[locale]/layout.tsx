@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { routing } from "@/i18n/routing";
+import { getSiteUrl } from "@/lib/site-url";
 import { buildPublicMenu, buildPublicSettings } from "@/lib/menu/public-menu";
 import { getDeliveryZones, getMenuData, getSettings } from "@/lib/menu/repository";
 import { AppProvider } from "@/components/providers/app-provider";
@@ -45,9 +46,8 @@ export const viewport: Viewport = {
 export async function generateMetadata({ params }: LayoutProps<"/[locale]">): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale: hasLocale(routing.locales, locale) ? locale : "az", namespace: "meta" });
-  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000";
   return {
-    metadataBase: new URL(siteUrl),
+    metadataBase: getSiteUrl(),
     title: { default: t("title"), template: "%s · Alov Baku" },
     description: t("description"),
     applicationName: "Alov Baku",

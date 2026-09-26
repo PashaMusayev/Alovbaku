@@ -1,4 +1,5 @@
 import "server-only";
+import { getSiteUrl } from "@/lib/site-url";
 import { nextStatuses, type OrderStatus } from "@/lib/orders/status";
 import { formatOrderForStaff, staffActionLabel, staffStatusLabel } from "@/lib/orders/format";
 import type { OrderRecord } from "@/lib/orders/types";
@@ -46,8 +47,8 @@ export function orderKeyboard(order: OrderRecord) {
     callback_data: statusCallback(order.id, s),
   }));
   const rows = buttons.length ? [buttons] : [];
-  const site = process.env.NEXT_PUBLIC_SITE_URL;
-  if (site?.startsWith("https://")) rows.push([{ text: "🖥 Admin", url: `${site}/admin/orders/${order.id}` } as never]);
+  const site = getSiteUrl();
+  if (site.protocol === "https:") rows.push([{ text: "🖥 Admin", url: new URL(`/admin/orders/${order.id}`, site).toString() } as never]);
   return { inline_keyboard: rows };
 }
 
