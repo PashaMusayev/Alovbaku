@@ -17,14 +17,28 @@ const arr = (v: string[]): string => `array[${v.map(q).join(", ")}]::text[]`;
  * Upsert so the seed can be re-run safely (e.g. after menu corrections) —
  * rows are matched by their deterministic IDs.
  */
+const MAX_STATEMENT_CHARS = 5000;
+
 function insert(table: string, columns: string[], rows: string[][], conflict: string[] = ["id"]): string {
   if (rows.length === 0) return "";
-  const values = rows.map((r) => `  (${r.join(", ")})`).join(",\n");
   const updates = columns.filter((c) => !conflict.includes(c)).map((c) => `${c} = excluded.${c}`);
   const onConflict = updates.length
     ? `on conflict (${conflict.join(", ")}) do update set ${updates.join(", ")}`
     : `on conflict (${conflict.join(", ")}) do nothing`;
-  return `insert into public.${table} (${columns.join(", ")}) values\n${values}\n${onConflict};\n\n`;
+  // Several short statements instead of one huge one, so the file can be pasted in pieces.
+  const chunks: string[][] = [[]];
+  let size = 0;
+  for (const row of rows.map((r) => `  (${r.join(", ")})`)) {
+    if (size + row.length > MAX_STATEMENT_CHARS && chunks.at(-1)!.length > 0) {
+      chunks.push([]);
+      size = 0;
+    }
+    chunks.at(-1)!.push(row);
+    size += row.length;
+  }
+  return chunks
+    .map((c) => `insert into public.${table} (${columns.join(", ")}) values\n${c.join(",\n")}\n${onConflict};\n\n`)
+    .join("");
 }
 
 const menu = buildSeedMenu();
