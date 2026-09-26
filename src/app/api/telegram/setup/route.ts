@@ -56,5 +56,22 @@ export async function GET(req: NextRequest) {
   }
 
   const ok = Object.values(steps).every((s) => s.startsWith("✅"));
-  return NextResponse.json({ ok, ...steps }, { status: ok ? 200 : 502 });
+
+  // Telegram's own view of the webhook (last delivery error, queued button presses).
+  let webhookInfo: unknown = null;
+  try {
+    const info = await telegramCall<{ url: string; pending_update_count: number; last_error_message?: string; last_error_date?: number }>(
+      "getWebhookInfo",
+      {},
+    );
+    webhookInfo = {
+      url: info.url,
+      pending: info.pending_update_count,
+      lastError: info.last_error_message ?? null,
+      lastErrorAt: info.last_error_date ? new Date(info.last_error_date * 1000).toISOString() : null,
+    };
+  } catch {
+    /* diagnostics only */
+  }
+  return NextResponse.json({ ok, ...steps, webhookInfo }, { status: ok ? 200 : 502 });
 }
