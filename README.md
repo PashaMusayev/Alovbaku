@@ -42,9 +42,9 @@ Without Supabase credentials the site runs on the in-memory seed menu and keeps 
 1. Telegram → **@BotFather** → `/newbot`, copy the token → `TELEGRAM_BOT_TOKEN`.
 2. Add the bot to the staff group and send any message there.
 3. `TELEGRAM_BOT_TOKEN=… node scripts/telegram-setup.mjs` → prints the group id → `TELEGRAM_CHAT_ID`.
-4. Choose a long random `TELEGRAM_WEBHOOK_SECRET`, deploy, then
-   `TELEGRAM_BOT_TOKEN=… TELEGRAM_WEBHOOK_SECRET=… node scripts/telegram-setup.mjs https://your-domain`
-   so the ✅ Qəbul et / ❌ İmtina et / 🔥 Hazırlanır / 🛵 Yoldadır / 🏁 Çatdırıldı buttons update the order
+4. Choose a long random `TELEGRAM_WEBHOOK_SECRET`, deploy, then open
+   `https://your-domain/api/telegram/setup?key=<TELEGRAM_WEBHOOK_SECRET>` once — the server registers the webhook
+   and posts a test message to the group (or run `node scripts/telegram-setup.mjs https://your-domain`), so the ✅ Qəbul et / ❌ İmtina et / 🔥 Hazırlanır / 🛵 Yoldadır / 🏁 Çatdırıldı buttons update the order
    (and the customer's tracking page, live).
 
 If Telegram is not configured or fails, the order is still saved and the customer is asked to also send it via WhatsApp.

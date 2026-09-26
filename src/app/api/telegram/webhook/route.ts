@@ -1,7 +1,7 @@
-import { timingSafeEqual } from "node:crypto";
 import { NextResponse } from "next/server";
 import { createTranslator } from "next-intl";
 import staffMessages from "../../../../../messages/az.json";
+import { matchesWebhookSecret } from "@/lib/notify/secret";
 import { answerCallback, parseStatusCallback, updateTelegramOrderMessage } from "@/lib/notify/telegram";
 import { staffStatusLabel } from "@/lib/orders/format";
 import { getTelegramChatId, updateOrderStatus } from "@/lib/orders/store";
@@ -16,17 +16,10 @@ interface CallbackQuery {
   message?: { message_id: number; chat: { id: number } };
 }
 
-function validSecret(header: string | null): boolean {
-  const secret = process.env.TELEGRAM_WEBHOOK_SECRET;
-  if (!secret || !header) return false;
-  const a = Buffer.from(header);
-  const b = Buffer.from(secret);
-  return a.length === b.length && timingSafeEqual(a, b);
-}
 
 /** Handles the Accept / Reject / status buttons on order messages in the staff group. */
 export async function POST(req: Request) {
-  if (!validSecret(req.headers.get("x-telegram-bot-api-secret-token"))) {
+  if (!matchesWebhookSecret(req.headers.get("x-telegram-bot-api-secret-token"))) {
     return NextResponse.json({ ok: false }, { status: 401 });
   }
   const update = (await req.json()) as { callback_query?: CallbackQuery };

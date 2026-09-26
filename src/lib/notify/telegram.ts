@@ -9,7 +9,7 @@ const TIMEOUT_MS = 6000;
 
 export const isTelegramConfigured = () => Boolean(process.env.TELEGRAM_BOT_TOKEN);
 
-async function call<T = unknown>(method: string, body: Record<string, unknown>): Promise<T> {
+export async function telegramCall<T = unknown>(method: string, body: Record<string, unknown>): Promise<T> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
   if (!token) throw new Error("TELEGRAM_BOT_TOKEN is not set");
   const res = await fetch(`${API}/bot${token}/${method}`, {
@@ -18,7 +18,13 @@ async function call<T = unknown>(method: string, body: Record<string, unknown>):
     body: JSON.stringify(body),
     signal: AbortSignal.timeout(TIMEOUT_MS),
   });
-  const json = (await res.json()) as { ok: boolean; result: T; description?: string };
+  const raw = await res.text();
+  let json: { ok: boolean; result: T; description?: string };
+  try {
+    json = JSON.parse(raw);
+  } catch {
+    throw new Error(`Telegram ${method} failed: HTTP ${res.status} ${raw.slice(0, 80)}`);
+  }
   if (!json.ok) throw new Error(`Telegram ${method} failed: ${json.description ?? res.status}`);
   return json.result;
 }
@@ -58,7 +64,7 @@ function messageText(order: OrderRecord): string {
 }
 
 export async function sendOrderToTelegram(order: OrderRecord, chatId: string): Promise<void> {
-  await call("sendMessage", {
+  await telegramCall("sendMessage", {
     chat_id: chatId,
     text: messageText(order),
     parse_mode: "HTML",
@@ -69,7 +75,7 @@ export async function sendOrderToTelegram(order: OrderRecord, chatId: string): P
 
 /** Refreshes the order message after a status change (new status line + next buttons). */
 export async function updateTelegramOrderMessage(order: OrderRecord, chatId: string | number, messageId: number) {
-  await call("editMessageText", {
+  await telegramCall("editMessageText", {
     chat_id: chatId,
     message_id: messageId,
     text: messageText(order),
@@ -82,7 +88,7 @@ export async function updateTelegramOrderMessage(order: OrderRecord, chatId: str
 /** Shows a short toast on the staff member's phone. Never throws. */
 export async function answerCallback(callbackQueryId: string, text: string) {
   try {
-    await call("answerCallbackQuery", { callback_query_id: callbackQueryId, text });
+    await telegramCall("answerCallbackQuery", { callback_query_id: callbackQueryId, text });
   } catch (error) {
     console.error("[telegram] answerCallbackQuery failed", error);
   }
