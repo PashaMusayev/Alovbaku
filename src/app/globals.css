@@ -1,0 +1,113 @@
+@import "tailwindcss";
+
+/*
+ * Alov Baku design tokens.
+ * Warm, fiery palette: charcoal surfaces, flame orange + ember red accents, cream text.
+ */
+@theme {
+  --color-coal-950: #0d0b0a;
+  --color-coal-900: #141110;
+  --color-coal-800: #1c1816;
+  --color-coal-700: #26211e;
+  --color-coal-600: #342d29;
+  --color-coal-500: #4a413b;
+
+  --color-flame-300: #ffa27a;
+  --color-flame-400: #ff7a45;
+  --color-flame-500: #ff5a1f;
+  --color-flame-600: #e8440b;
+  --color-ember-500: #d7261e;
+  --color-ember-600: #b01b15;
+  --color-gold-400: #ffc15a;
+
+  --color-cream-50: #fff9f1;
+  --color-cream-100: #fff1e0;
+  --color-cream-200: #f3e2cc;
+  --color-cream-400: #cdb9a3;
+  --color-cream-500: #a8957f;
+
+  --color-ok-500: #3ecf6e;
+  --color-warn-500: #ffb020;
+
+  --font-display: var(--font-oswald), "Arial Narrow", system-ui, sans-serif;
+  --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --radius-card: 1.25rem;
+  --shadow-glow: 0 0 0 1px rgb(255 90 31 / 0.35), 0 10px 30px -10px rgb(255 90 31 / 0.55);
+
+  --animate-flicker: flicker 2.4s ease-in-out infinite;
+  --animate-rise: rise 6s linear infinite;
+
+  @keyframes flicker {
+    0%, 100% { transform: scaleY(1) skewX(0deg); opacity: 0.95; }
+    25% { transform: scaleY(1.06) skewX(-1.5deg); opacity: 1; }
+    50% { transform: scaleY(0.95) skewX(1deg); opacity: 0.85; }
+    75% { transform: scaleY(1.04) skewX(-0.5deg); opacity: 1; }
+  }
+  @keyframes rise {
+    0% { transform: translateY(0) scale(1); opacity: 0; }
+    10% { opacity: 1; }
+    100% { transform: translateY(-220px) scale(0.3); opacity: 0; }
+  }
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    -webkit-tap-highlight-color: transparent;
+    scroll-padding-top: 8.5rem; /* header + sticky category tabs */
+  }
+  body {
+    background: var(--color-coal-900);
+    color: var(--color-cream-100);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3, .font-display {
+    font-family: var(--font-display);
+    letter-spacing: 0.01em;
+  }
+  :focus-visible {
+    outline: 3px solid var(--color-flame-400);
+    outline-offset: 2px;
+    border-radius: 0.5rem;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@utility btn {
+  @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 font-semibold transition active:scale-[0.97] disabled:cursor-not-allowed disabled:opacity-50;
+}
+@utility btn-primary {
+  @apply btn bg-flame-500 text-coal-950 shadow-[var(--shadow-glow)] hover:bg-flame-400;
+}
+@utility btn-ghost {
+  @apply btn border border-cream-100/20 text-cream-100 hover:border-flame-400 hover:text-flame-300;
+}
+@utility chip {
+  @apply inline-flex min-h-10 shrink-0 items-center gap-1.5 rounded-full border border-coal-500 bg-coal-800 px-4 text-sm font-medium text-cream-200 transition;
+  &[aria-pressed="true"],
+  &[aria-checked="true"],
+  &[aria-selected="true"] {
+    @apply border-flame-500 bg-flame-500/15 text-flame-300;
+  }
+}
+@utility card {
+  @apply rounded-[var(--radius-card)] border border-coal-600/70 bg-coal-800;
+}
+@utility section-title {
+  @apply font-display text-2xl font-bold uppercase text-cream-50 sm:text-3xl;
+}
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
